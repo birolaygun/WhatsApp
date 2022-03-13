@@ -1,0 +1,32 @@
+{
+  "name": "whatsapp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@redux-devtools/extension": "^3.2.2",
+    "firebase": "^9.6.8",
+    "next": "^12.1.0",
+    "next-redux-wrapper": "^7.0.5",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1",
+    "redux-wrapper": "^0.0.1",
+    "store": "^2.0.12",
+    "tailwindcss-animation-delay": "^1.0.7"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.2",
+    "eslint": "8.10.0",
+    "eslint-config-next": "12.1.0",
+    "postcss": "^8.4.7",
+    "tailwindcss": "^3.0.23"
+  }
+}
