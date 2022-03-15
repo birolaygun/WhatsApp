@@ -64,6 +64,7 @@ const Connect = () => {
 
         <br id="end" />
       </div>
+      <Write />
     </div>
   );
 };
