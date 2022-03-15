@@ -32,28 +32,31 @@ const Connect = () => {
 
   return (
     <div
-      className="  heightCalc scrollbar 
-     hover:scrollbar-thumb-gray_500 scrollbar-thin bgimage "
+      className="   scrollbar heightCalc
+     hover:scrollbar-thumb-gray_500 scrollbar-thin bgimage flex flex-col justify-between "
     >
-      {sortedMessages.length !== 0 ? (
-        sortedMessages.map((message, i) => {
-          return (
-            <div key={i} >
-              <Messages
-                message={message}
-                i={i}
-                sortedMessages={sortedMessages}
-              />
-            </div>
-          );
-        })
-      ) : (
-        <div className="bg-lightGey">send first messge</div>
-      )}
+      <div></div>
+      <div>
+        {sortedMessages.length !== 0 ? (
+          sortedMessages.map((message, i) => {
+            return (
+              <div key={i}>
+                <Messages
+                  message={message}
+                  i={i}
+                  sortedMessages={sortedMessages}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <div className="bg-gray_300 text-iceWhite w-40 mx-auto text-center p-3 mb-10 rounded-md ">send first messge</div>
+        )}
 
-      <br />
+        <br />
 
-      <Write />
+        <Write />
+      </div>
     </div>
   );
 };
