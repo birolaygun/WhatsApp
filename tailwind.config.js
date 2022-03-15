@@ -5,27 +5,30 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
-  plugins: [require("tailwindcss-animation-delay")],
+  plugins: [
+    require("tailwindcss-animation-delay"),
+    require("tailwind-scrollbar"),
+  ],
 
   theme: {
-
-
     colors: {
+      transparant: "rgba(0, 0, 0, 0.0)",
       lightGreen: "#72d298",
       green_100: "#dcf8c6",
-      darkGray: "#e9eaeb",
+      darkGray: "#111b21",
       lightGey: "#e9eaeb",
-      blue_100: "#e1f2fb",
+      blue_100: "#00a884",
+      green_400: "#00a884",
       blue_500: "#2fa4f0",
-      iceWhite: "#dfdfdf",
-      
-      green_300: "#4ced69",
+      iceWhite: "#e9edef",
+      blue_700: "#3462f9",
+
       green_500: "#1c5753",
-      green_600: "#03b295",
+      green_600: "#005c4b",
       gray_100: "#babdc2",
-      gray_300: "#7e878c",
+      gray_300: "#2a3942",
       gray_500: "#252d30",
-      gray_900: "#131c21",
+      gray_900: "#111b21",
     },
 
     extend: {
@@ -70,9 +73,9 @@ module.exports = {
         fadeInDown: "fadeInDown 500ms",
       },
       flexGrow: {
-        '2': 2,
-        '3': 3
-      }
+        2: 2,
+        3: 3,
+      },
     },
   },
   corePlugins: {

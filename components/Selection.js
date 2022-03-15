@@ -4,13 +4,12 @@ import Nav from "./Nav";
 
 const Selection = (props) => {
   return (
-    <div>
+    <div className="float-none">
       <div className="sticky top-0">
         <Nav />
       </div>
       <List />
 
-      {/* {props.children} */}
     </div>
   );
 };

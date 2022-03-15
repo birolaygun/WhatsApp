@@ -13,7 +13,7 @@ import {
 import HomePage from "../components/HomePage";
 import { WhatsAppIcon } from "../components/icons";
 
-export default function Home() {
+export default function Home() {  
   const [user, setUser] = useState(null);
   const [name, setName] = useState("");
   const [surName, setSurName] = useState("");
@@ -158,9 +158,9 @@ export default function Home() {
   };
 
   return (
-    <div >
+    <div>
       <button
-        className="absolute text-iceWhite opacity-10"
+        className="absolute text-iceWhite opacity-10 z-50"
         onClick={() => {
           console.log(data);
         }}
@@ -172,7 +172,6 @@ export default function Home() {
         <title>WhatsApp</title>
         <meta name="description" content="It's an education App" />
         <link rel="icon" href="/favicon.ico" />
-        
       </Head>
 
       <main className="">

@@ -120,9 +120,17 @@ const HomePage = (props) => {
     });
   };
 
+  console.log(data);
+
   return (
-    <div className="flex w-full ">
-      <div className="w-full md:w-2/5 bg-gray_900 min-h-screen">
+    <div className="flex w-screen overflow-hidden bg-gray_900 ">
+      <div
+        className={`w-screen md:w-2/5  bg-gray_900 min-h-screen transition-transform ${
+          data.selectedCon
+            ? "translate-x-full w-0 invisible absolute md:visible md:static md:translate-x-0"
+            : " visible static translate-x-0"
+        }`}
+      >
         <Selection>
           <button
             onClick={() => {
@@ -134,7 +142,14 @@ const HomePage = (props) => {
           </button>
         </Selection>
       </div>
-      <div className="hidden md:block w-3/5 min-h-screen bg-gray_500 ">
+
+      <div
+        className={` w-screen md:w-3/5 bg-gray_900 min-h-screen  transition-transform ${
+          data.selectedCon
+            ? "visible static translate-x-0"
+            : " -translate-x-full w-0 invisible absolute md:visible md:static md:translate-x-0"
+        }`}
+      >
         <Show />
       </div>
     </div>

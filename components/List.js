@@ -18,12 +18,12 @@ const List = () => {
   }
 
   return (
-    <div className="bg-gray_900 h-">
+    <div className="  heightCalc scrollbar  hover:scrollbar-thumb-gray_500 scrollbar-thin">
       {data.connects.sort(compare).map((connect, i) => (
         <SelectToWrite
           key={i}
-          userEMail={connect.userEMail}
-          userName={connect.userName}
+          senderEMail={connect.senderEMail}
+          senderName={connect.senderName}
           profilePhoto={connect.profilePhoto}
           lastMessage={connect.lastMessage}
           lastMessageTime={connect.lastMessageTime}
