@@ -26,7 +26,7 @@ const Nav = () => {
               <span
                 className={` ${
                   data.chatsBadge < 100 ? "h-4 w-4" : "h-5 w-5"
-                } text-gray_900 ml-2  bg-green_600 rounded-full p-1 text-[10px] flex items-center justify-center`}
+                } text-gray_900 ml-2  bg-green_400 rounded-full p-1 text-[10px] flex items-center justify-center`}
               >
                 {data.chatsBadge}
               </span>
@@ -38,11 +38,12 @@ const Nav = () => {
       </div>{" "}
       <div
         className="px-3  bg-gray_500 text-iceWhite 
-      space-y-4 border-b  border-iceWhite border-opacity-20 h-[87px] hidden md:flex items-center justify-between"
+      space-y-4 border-b  border-iceWhite border-opacity-20 h-[87px] 
+      hidden md:flex items-center justify-between"
       >
         <img className="w-12 h-12 rounded-full" src={data.user.photo} alt="" />
         <div className="text-iceWhite flex items-center space-x-5">
-          <div className="mb-3">{plus}</div> 
+          <div className="mb-3">{plus}</div>
           <div className="rotate-90 text-lg">{treeDats}</div>
         </div>
       </div>{" "}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Messages from "./Messages";
@@ -9,6 +9,8 @@ const Connect = () => {
   const { data } = useSelector((state) => state);
 
   const [sortedMessages, setSortedMessages] = useState([]);
+
+  const end = document.getElementById("end");
 
   function compare(a, b) {
     if (a.time < b.time) {
@@ -30,13 +32,20 @@ const Connect = () => {
     }
   }, [data]);
 
+  if (end) {
+    setTimeout(() => {
+      end.scrollIntoView();
+    }, 5);
+  }
+
   return (
     <div
-      className="   scrollbar heightCalc
-     hover:scrollbar-thumb-gray_500 scrollbar-thin bgimage flex flex-col justify-between "
+      className="scrollbar  
+     hover:scrollbar-thumb-gray_500 scrollbar-thin flex flex-col justify-between "
     >
       <div></div>
-      <div>
+
+      <div className="h-max">
         {sortedMessages.length !== 0 ? (
           sortedMessages.map((message, i) => {
             return (
@@ -50,12 +59,10 @@ const Connect = () => {
             );
           })
         ) : (
-          <div className="bg-gray_300 text-iceWhite w-40 mx-auto text-center p-3 mb-10 rounded-md ">send first messge</div>
+          <div className="bg-lightGey">send first messge</div>
         )}
 
-        <br />
-
-        <Write />
+        <br id="end" />
       </div>
     </div>
   );

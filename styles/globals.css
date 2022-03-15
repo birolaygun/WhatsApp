@@ -27,9 +27,12 @@ html,
   background-image: url("https://cdn.wallpapersafari.com/33/45/5YmTDJ.jpg");
   filter: contrast(120%);
 }
+.hCalc {
+  height: calc(100vh - 142px);
+}
 .maxW {
   max-width: 80%;
 }
 textarea {
-	resize: none;
+  resize: none;
 }

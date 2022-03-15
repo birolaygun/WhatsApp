@@ -120,8 +120,6 @@ const HomePage = (props) => {
     });
   };
 
-  console.log(data);
-
   return (
     <div className="flex w-screen overflow-hidden bg-gray_900 ">
       <div

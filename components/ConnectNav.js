@@ -35,17 +35,20 @@ const ConnectNav = () => {
   }
 
   return (
-    <div >
+    <div>
       {data.selectedCon && (
-        <div className=" p-1 md:px-3  h-[87px] border-b bg-gray_500 border-iceWhite border-opacity-20 flex items-center">
-          <button onClick={()=>{
-             dispatch({
-              type: "CLEAR_SELECTED_CON",
-              payload: "",
-            });
-          }
-
-          } className="md:hidden text-iceWhite flex-grow-0">{leftArrow}</button>
+        <div className=" p-1 md:px-3 h-[87px] border-b bg-gray_500 border-iceWhite border-opacity-20 flex items-center">
+          <button
+            onClick={() => {
+              dispatch({
+                type: "CLEAR_SELECTED_CON",
+                payload: "",
+              });
+            }}
+            className="md:hidden text-iceWhite flex-grow-0"
+          >
+            {leftArrow}
+          </button>
 
           <div className="w-fit float-left flex-grow-0">
             <img
