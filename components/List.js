@@ -25,11 +25,11 @@ const List = () => {
           senderEMail={connect.senderEMail}
           senderName={connect.senderName}
           profilePhoto={connect.profilePhoto}
-          lastMessage={connect.lastMessage}
-          lastMessageTime={connect.lastMessageTime}
+          lastMessage={connect.messages[Object.entries(connect.messages).length - 1]}
+          // lastMessageTime={connect.lastMessageTime}
           unReadMessage={connect.unReadMessage}
-          seen={connect.seen}
-          userSend={connect.userSend}
+          // seen={connect.seen}
+          // userSend={connect.userSend}
           group={connect.group}
           sender={connect.sender}
         />

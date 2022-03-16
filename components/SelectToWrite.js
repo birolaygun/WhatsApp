@@ -30,20 +30,23 @@ const SelectToWrite = (props) => {
     }
   }, [data.selectedCon]);
 
-  let time = props?.lastMessageTime;
-
+  let time;
   let timeReact;
 
-  if (time.toDateString() === new Date().toDateString()) {
-    timeReact = new Date().toTimeString().slice(0, 5);
-  } else if (
-    new Date().toDateString() > time.toDateString() &&
-    new Date().getTime() - time.getTime() < 7 * 24 * 60 * 60 * 1000
-  ) {
-    timeReact = days[time.getDay()];
-  } else {
-    timeReact = time.toLocaleDateString();
+  if (props.lastMessage) {
+    time = props?.lastMessage.time;
+    if (time.toDateString() === new Date().toDateString()) {
+      timeReact = new Date().toTimeString().slice(0, 5);
+    } else if (
+      new Date().toDateString() > time.toDateString() &&
+      new Date().getTime() - time.getTime() < 7 * 24 * 60 * 60 * 1000
+    ) {
+      timeReact = days[time.getDay()];
+    } else {
+      timeReact = time.toLocaleDateString();
+    }
   }
+
   return (
     <div
       onClick={() => {
@@ -57,7 +60,6 @@ const SelectToWrite = (props) => {
           ? "bg-gray_300 px-3  transition-colors cursor-pointer "
           : " transition-colors px-3 cursor-pointer hover:bg-gray_300 hover:bg-opacity-50 "
       }
-
     >
       <div className="w-12 float-left mt-[12px] ">
         <img
@@ -72,46 +74,57 @@ const SelectToWrite = (props) => {
           <h2 className="text-iceWhite font-bold whitespace-nowrap text-ellipsis ">
             {props.senderName}
           </h2>
-          <div className="flex items-center truncate text-ellipsis w-full overflow-hidden">
-            <span
-              className={`${
-                !(props.seen && props.userSend) && "hidden"
-              } text-blue_500 `}
-            >
-              {props.seen && props.userSend && blueTick}
-            </span>
-            <span
-              className={`${
-                !(!props.seen && props.userSend) && "hidden"
-              } text-iceWhite `}
-            >
-              {!props.seen && props.userSend && blueTick}
-            </span>
-            <p
-              className={` ${
-                !(props.group && !props.userSend) && "hidden"
-              } text-iceWhite`}
-            >
-              {props.group && !props.userSend && props.sender}:
-            </p>
-            <p
 
-
-
-              className= "text-iceWhite text-opacity-80 truncate text-ellipsis w-full overflow-hidden "
-            >
-              {props.lastMessage}
-            </p>
-          </div>
+          {props.lastMessage ? (
+            <div className="flex items-center truncate text-ellipsis w-full overflow-hidden">
+              <span
+                className={`${
+                  !(props.lastMessage?.seen && props.lastMessage?.userSend) &&
+                  "hidden"
+                } text-blue_500 `}
+              >
+                {props.lastMessage.seen &&
+                  props.lastMessage.userSend &&
+                  blueTick}
+              </span>
+              <span
+                className={`${
+                  !(!props.lastMessage.seen && props.lastMessage.userSend) &&
+                  "hidden"
+                } text-iceWhite `}
+              >
+                {!props.lastMessage.seen &&
+                  props.lastMessage.userSend &&
+                  blueTick}
+              </span>
+              <p
+                className={` ${
+                  !(props.group && !props.lastMessage.userSend) && "hidden"
+                } text-iceWhite`}
+              >
+                {props.group &&
+                  !props.lastMessage.userSend &&
+                  props.lastMessage.userSend}
+                :
+              </p>
+              <p className="text-iceWhite text-opacity-80 truncate text-ellipsis w-full overflow-hidden ">
+                {props.lastMessage.message}
+              </p>
+            </div>
+          ) : (
+            <div className="">
+              <br />
+            </div>
+          )}
         </div>
 
         <div className="flex items-center justify-center flex-col w-min  ">
           <div
-
-
-
-
-            className={props.unReadMessage ? "text-green_400 " : "text-iceWhite text-opacity-80"}
+            className={
+              props.unReadMessage
+                ? "text-green_400 "
+                : "text-iceWhite text-opacity-80"
+            }
           >
             {timeReact}
           </div>

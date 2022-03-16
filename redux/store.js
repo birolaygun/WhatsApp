@@ -399,9 +399,6 @@ const STATE = {
 };
 
 const data = function reducer(state = STATE, action) {
-
-
-
   switch (action.type) {
     case "LOGIN": {
       return {
@@ -440,22 +437,32 @@ const data = function reducer(state = STATE, action) {
     }
 
     case "SEND_MESSAGE": {
-      console.log(
-        state.connects.map((cnn) => {
+      if (state.selectedCon) {
+        let aa = state.connects.map((cnn) => {
           if (cnn.senderEMail !== state.selectedCon.senderEMail) {
-            cnn;
+            return cnn;
           } else {
-            ("cnn");
+            return {
+              ...cnn,
+              messages: [
+                ...cnn.messages,
+                {
+                  userSend: true,
+                  time: new Date(),
+                  message: action.payload,
+                  seen: false,
+                },
+              ],
+            };
           }
-        })
-      );
+        });
+
+        console.log(aa);
+      }
 
       return {
         ...state,
-        // connects : [state.connects.map((cnn) => {
-        //   cnn.senderEMail !== state.selectedCon ? {...cnn, } : {...cnn, cnn.messages:[...cnn.messages, ]}
-
-        // })]
+        connects: aa,
       };
     }
 
