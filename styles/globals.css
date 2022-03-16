@@ -21,18 +21,19 @@ html,
 
 .heightCalc {
   height: calc(100vh - 87px);
-  min-height: calc(100vh - 87px);
 }
 .bgimage {
   background-image: url("https://cdn.wallpapersafari.com/33/45/5YmTDJ.jpg");
   filter: contrast(120%);
 }
 .hCalc {
-  height: calc(100vh - 142px);
+  height: calc(100vh - 151px);
 }
 .maxW {
   max-width: 80%;
 }
 textarea {
   resize: none;
+  height: 40px;
+  max-height: 144px;
 }

@@ -43,9 +43,16 @@ const Connect = () => {
       className="scrollbar  
      hover:scrollbar-thumb-gray_500 scrollbar-thin flex flex-col justify-between "
     >
-      <div></div>
-
-      <div className="h-max">
+      <div className="">
+        {" "}
+        <div
+          className="
+        // h-[200px]
+        "
+        >
+          {" "}
+          fdg{" "}
+        </div>
         {sortedMessages.length !== 0 ? (
           sortedMessages.map((message, i) => {
             return (
@@ -61,10 +68,8 @@ const Connect = () => {
         ) : (
           <div className="bg-lightGey">send first messge</div>
         )}
-
         <br id="end" />
       </div>
-      <Write />
     </div>
   );
 };

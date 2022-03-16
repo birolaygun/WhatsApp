@@ -118,15 +118,12 @@ const STATE = {
         },
       ],
     },
-
-
-
     {
       senderEMail: "kjdkşjhsa@gmail.com",
       senderName: "Tuğba bura",
       profilePhoto:
         "https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-      lastMessage: " orada görüşürüz :) ben eve geldim.",
+      lastMessage: " sa orada görüşürüz :) ben eve geldim.",
       lastMessageTime: new Date(2022, 2, 15, 23, 0, 0, 0),
       unReadMessage: 0,
       seen: true,
@@ -402,6 +399,9 @@ const STATE = {
 };
 
 const data = function reducer(state = STATE, action) {
+
+
+
   switch (action.type) {
     case "LOGIN": {
       return {
@@ -439,10 +439,39 @@ const data = function reducer(state = STATE, action) {
       };
     }
 
+    case "SEND_MESSAGE": {
+      console.log(
+        state.connects.map((cnn) => {
+          if (cnn.senderEMail !== state.selectedCon.senderEMail) {
+            cnn;
+          } else {
+            ("cnn");
+          }
+        })
+      );
+
+      return {
+        ...state,
+        // connects : [state.connects.map((cnn) => {
+        //   cnn.senderEMail !== state.selectedCon ? {...cnn, } : {...cnn, cnn.messages:[...cnn.messages, ]}
+
+        // })]
+      };
+    }
+
     default:
       return state;
   }
 };
+
+// messages: [
+//   {
+//     userSend: true,
+//     time: new Date(2022, 2, 13, 17, 51, 40, 0),
+//     message:
+//       " hello World  hello Worldhello Worldhello Worldhello Worldhello World hello Worldhello Worldhello Worldhello Worldhello World!!",
+//     seen: false,
+//   },
 
 const combineReducer = combineReducers({
   data,

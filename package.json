@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@redux-devtools/extension": "^3.2.2",
+    "autosize": "^5.0.1",
     "firebase": "^9.6.8",
+    "import": "^0.0.6",
     "next": "^12.1.0",
     "next-redux-wrapper": "^7.0.5",
     "react": "17.0.2",

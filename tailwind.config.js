@@ -13,18 +13,17 @@ module.exports = {
   theme: {
     colors: {
       transparant: "rgba(0, 0, 0, 0.0)",
-      lightGreen: "#72d298",
-      green_100: "#dcf8c6",
-      darkGray: "#111b21",
-      lightGey: "#e9eaeb",
-      blue_100: "#00a884",
-      green_400: "#00a884",
-      blue_500: "#2fa4f0",
       iceWhite: "#e9edef",
-      blue_700: "#3462f9",
 
+      blue_100: "#00a884",
+      blue_700: "#3462f9",
+      blue_500: "#2fa4f0",
+
+      green_100: "#dcf8c6",
+      green_400: "#00a884",
       green_500: "#1c5753",
       green_600: "#005c4b",
+
       gray_100: "#babdc2",
       gray_300: "#2a3942",
       gray_500: "#252d30",

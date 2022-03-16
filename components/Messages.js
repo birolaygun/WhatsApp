@@ -61,7 +61,7 @@ const Messages = (props) => {
     >
       {!props.message.userSend && (
         <div
-          className={` border-[10px] w-5 h-5 bg-transparant border-gray_500
+          className={`-z-10 border-[10px] w-5 h-5 bg-transparant border-gray_500
              border-b-transparant border-l-transparant  relative left-2 top-7 ${
                !hideArrow && "hidden "
              } `}
@@ -94,7 +94,7 @@ const Messages = (props) => {
         <div
           className={`${
             !hideArrow && "hidden "
-          } border-[10px] w-5 h-5 bg-transparant
+          } border-[10px] w-5 h-5 bg-transparant -z-10
              border-b-transparant border-r-transparant border-green_600 relative top-7 -left-2`}
         ></div>
       )}
