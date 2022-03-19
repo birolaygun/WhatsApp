@@ -31,7 +31,7 @@ const Show = (props) => {
           </div>
         </div>
       ) : (
-        <div></div>
+        <div> </div>
       )}
     </div>
   );

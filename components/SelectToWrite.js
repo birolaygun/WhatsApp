@@ -107,7 +107,7 @@ const SelectToWrite = (props) => {
                   props.lastMessage.userSend}
                 :
               </p>
-              <p className="text-iceWhite text-opacity-80 truncate text-ellipsis w-full overflow-hidden ">
+              <p className=" text-sm text-iceWhite text-opacity-80 truncate text-ellipsis w-full overflow-hidden ">
                 {props.lastMessage.message}
               </p>
             </div>
@@ -118,18 +118,18 @@ const SelectToWrite = (props) => {
           )}
         </div>
 
-        <div className="flex items-center justify-center flex-col w-min  ">
+        <div className="flex items-end justify-center flex-col w-min  ">
           <div
             className={
               props.unReadMessage
-                ? "text-green_400 "
-                : "text-iceWhite text-opacity-80"
+                ? "text-green_400 text-sm "
+                : "text-iceWhite text-opacity-80 text-sm"
             }
           >
             {timeReact}
           </div>
           <div
-            className={`w-5 h-5 bg-green_400 rounded-full flex items-center justify-center text-[10px] ${
+            className={`pt-1 w-5 h-5 bg-green_400 rounded-full flex items-center justify-center text-[10px] ${
               !props.unReadMessage && "hidden"
             }`}
           >

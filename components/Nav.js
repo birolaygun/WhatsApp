@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { camera, plus, search, treeDats } from "./icons";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import Dropdown from "./Dropdown";
 
-const Nav = () => {
+const Nav = (props) => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
 
@@ -13,8 +14,21 @@ const Nav = () => {
         <div className="flex items-center justify-between">
           <div className="font-bold text-lg">WhatsApp</div>
           <div className="flex items-center space-x-5 font-bold">
-            <div>{plus}</div>
-            <div>{treeDats}</div>
+            <div
+              className="cursor-pointer mr-11 mt-1"
+              onClick={() => {
+                setTimeout(() => {
+                  dispatch({
+                    type: "SHOW_MODAL",
+                  });
+                }, 0);
+              }}
+            >
+              {plus}
+            </div>
+            <div className="absolute  right-4 mt-3">
+              <Dropdown logOut={props.logOut} />
+            </div>
           </div>
         </div>
         <div className="flex items-center ">
@@ -43,8 +57,19 @@ const Nav = () => {
       >
         <img className="w-12 h-12 rounded-full" src={data.user.photo} alt="" />
         <div className="text-iceWhite flex items-center space-x-5">
-          <div className="mb-3">{plus}</div>
-          <div className="rotate-90 text-lg">{treeDats}</div>
+          <div
+            className="mb-3 cursor-pointer"
+            onClick={() => {
+              setTimeout(() => {
+                dispatch({
+                  type: "SHOW_MODAL",
+                });
+              }, 0);
+            }}
+          >
+            {plus}
+          </div>
+          <Dropdown logOut={props.logOut} />
         </div>
       </div>{" "}
     </div>

@@ -8,7 +8,7 @@ const Selection = (props) => {
   return (
     <div className="float-none">
       <div className="sticky top-0">
-        <Nav />
+        <Nav logOut={props.logOut} />
       </div>
       <List />
     </div>

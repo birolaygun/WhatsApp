@@ -13,21 +13,43 @@ import {
 import HomePage from "../components/HomePage";
 import { WhatsAppIcon } from "../components/icons";
 
-export default function Home() {  
-  const [user, setUser] = useState(null);
-  const [name, setName] = useState("");
-  const [surName, setSurName] = useState("");
-  const [updateName, setUpdateName] = useState("");
-  const [updateSurName, setUpdateSurName] = useState("");
-  const [modal, setModal] = useState(false);
-  const [list, setList] = useState([]);
-  const [file, setFile] = useState("");
-  const [fileList, setFileList] = useState([]);
 
-  //redux hooks
+
+export default function Home() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
 
+  const [user, setUser] = useState(null);
+  const [list, setList] = useState({});
+  const [dbUsers, setDbUsers] = useState([]);
+  const [dbConnections, setDbConnections] = useState([]);
+
+  useEffect(() => {
+    db.collection("data").onSnapshot((ss) => {
+      setList(
+        ss.docs.map((person) => {
+          return { id: person.id, data: person.data() };
+        })
+      );
+    });
+  }, []);
+
+  useEffect(() => {
+    if (list[0]?.data?.connection) {
+      setDbConnections(list[0]?.data?.connection);
+    }
+
+    if (list[0]?.data?.users) {
+      setDbUsers(list[0]?.data?.users);
+    }
+  }, [list]);
+
+  useEffect(() => {
+    dispatch({
+      type: "REFLESH_DATAS",
+      payload: [dbUsers, dbConnections],
+    });
+  }, [dbUsers, dbConnections]);
   const login = () => {
     auth.signInWithPopup(provider).catch((e) => console.log(e));
   };
@@ -53,108 +75,9 @@ export default function Home() {
     }
   }, [user]);
 
-  const sendToDb = (e) => {
-    db.collection("personel").add({
-      name: name,
-      surName: surName,
-    });
-    setName("");
-    setSurName("");
-  };
-
-  useEffect(() => {
-    db.collection("personel").onSnapshot((ss) => {
-      setList(
-        ss.docs.map((person) => {
-          return { id: person.id, data: person.data() };
-        })
-      );
-    });
-
-    db.collection("pics").onSnapshot((ss) => {
-      setFileList(
-        ss.docs.map((file) => {
-          return { id: file.id, data: file.data() };
-        })
-      );
-    });
-  }, []);
-
-  const deleteDoc = (personId) => {
-    db.collection("personel").doc(personId).delete();
-  };
-
-  const deleteCollection = () => {
-    list.forEach((li) => {
-      deleteDoc(li.id);
-    });
-  };
-
-  const updateDoc = (personId) => {
-    db.collection("personel").doc(personId).update({
-      name: updateName,
-      surName: updateSurName,
-    });
-    setUpdateName("");
-    setUpdateSurName("");
-    setModal(false);
-  };
-
-  // store
-
-  const [progress, setProgress] = useState(0);
-
-  const addFile = (file) => {
-    if (file) {
-      const storageRef = ref(storage, `${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const prog = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setProgress(prog);
-        },
-        (err) => console.log(err),
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            // console.log(url);
-
-            db.collection("pics").add({
-              img: url,
-              name: file.name,
-            });
-          });
-        }
-      );
-    } else {
-      return;
-    }
-  };
-
-  const deleteFile = (id, name) => {
-    const desertRef = ref(storage, name);
-    deleteObject(desertRef)
-      .then(() => {
-        // File deleted successfully
-      })
-      .catch((error) => {
-        // Uh-oh, an error occurred!
-      });
-
-    db.collection("pics").doc(id).delete();
-  };
-
-  const deleteAllFiles = () => {
-    fileList.forEach((li) => {
-      deleteFile(li.id, li.data.name);
-    });
-  };
-
   const logOut = () => {
     auth.signOut();
+    dispatch({ type: "LOGOUT", payload: "" });
   };
 
   return (
@@ -186,7 +109,7 @@ export default function Home() {
             </div>
             <p className="m-5 text-iceWhite max-w-md text-center">
               This is not real WhatsApp. It's Birol Aygun's edication project.
-              Please LOGIN and send start a messaging..
+              Please LOGIN and start messaging..
             </p>
             <button
               onClick={login}

@@ -3,13 +3,27 @@ import { createWrapper } from "next-redux-wrapper";
 import { useEffect } from "react";
 
 const STATE = {
+  id: "SNA9FltXA8h6x6xlt1Ml",
+
   login: false,
-  user: {},
+  userEMail: "sdf",
+  userName: "sdfff",
+  userPictureUrl: "dsf",
+
   chatsBadge: 11,
-  //state.connects.filter((fn) => fn.unReadMessage > 0).length,
   profileName: "",
   profilePhoto: "",
+  userProfileName: "sdf",
+  userProfilePhotoUrl: "fds",
+
+  user: {},
+  dbUsers: [],
+  dbConnections: [],
+
   selectedCon: "",
+  showModal: false,
+  showDropDown: false,
+  friendsMail: "",
 
   connects: [
     {
@@ -400,9 +414,25 @@ const STATE = {
 
 const data = function reducer(state = STATE, action) {
   switch (action.type) {
+    case "REFLESH_DATAS": {
+      if (action.payload) {
+        // console.log(action.payload);
+        return {
+          ...state,
+          dbUsers: action.payload[0],
+          dbConnections: action.payload[0],
+        };
+      }
+    }
+
     case "LOGIN": {
       return {
         ...state,
+
+        userName: action.payload[0],
+        userEMail: action.payload[1],
+        userPictureUrl: action.payload[2],
+
         user: {
           name: action.payload[0],
           eMail: action.payload[1],
@@ -463,6 +493,61 @@ const data = function reducer(state = STATE, action) {
       return {
         ...state,
         connects: aa,
+      };
+    }
+
+    case "SHOW_MODAL": {
+      return {
+        ...state,
+        showModal: true,
+      };
+    }
+    case "HİDE_MODAL": {
+      return {
+        ...state,
+        showModal: false,
+        friendsMail: "",
+      };
+    }
+    case "SET_FRIENDS_MAIL": {
+      return {
+        ...state,
+        friendsMail: action.payload,
+      };
+    }
+    case "SHOW_DROPDOWN": {
+      return {
+        ...state,
+        showDropDown: true,
+      };
+    }
+    case "HİDE_DROPDOWN": {
+      return {
+        ...state,
+        showDropDown: false,
+      };
+    }
+    case "ADD_FRİEND": {
+      return {
+        ...state,
+        connects: [
+          ...state.connects,
+          {
+            senderEMail: action.payload,
+            senderName: "buu",
+            profilePhoto:
+              "https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+            lastMessage: "buuuu :)",
+            lastMessageTime: new Date(2022, 2, 15, 10, 30, 30, 0),
+            unReadMessage: 4,
+            seen: true,
+            userSend: false,
+            group: true,
+            sender: "gruptan gönderdi",
+            lastSeen: new Date(2022, 2, 13, 13, 50, 40, 0),
+            messages: [],
+          },
+        ],
       };
     }
 

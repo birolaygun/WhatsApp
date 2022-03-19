@@ -11,140 +11,32 @@ import {
 } from "firebase/storage";
 import Selection from "./Selection";
 import Show from "./Show";
-import Nav from "./Nav";
+import Modal from "./Modal";
+import Try from "./Try";
 
 const HomePage = (props) => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
 
-  const [list, setList] = useState({});
-  const [fileList, setFileList] = useState({});
-
-  const sendToDb = (e) => {
-    db.collection("personel").add({
-      name: name,
-      surName: surName,
-    });
-    setName("");
-    setSurName("");
-  };
-
-  useEffect(() => {
-    db.collection("personel").onSnapshot((ss) => {
-      setList(
-        ss.docs.map((person) => {
-          return { id: person.id, data: person.data() };
-        })
-      );
-    });
-
-    db.collection("pics").onSnapshot((ss) => {
-      setFileList(
-        ss.docs.map((file) => {
-          return { id: file.id, data: file.data() };
-        })
-      );
-    });
-  }, []);
-
-  const deleteDoc = (personId) => {
-    db.collection("personel").doc(personId).delete();
-  };
-
-  const deleteCollection = () => {
-    list.forEach((li) => {
-      deleteDoc(li.id);
-    });
-  };
-
-  const updateDoc = (personId) => {
-    db.collection("personel").doc(personId).update({
-      name: updateName,
-      surName: updateSurName,
-    });
-    setUpdateName("");
-    setUpdateSurName("");
-    setModal(false);
-  };
-
-  // store
-
-  const [progress, setProgress] = useState(0);
-
-  const addFile = (file) => {
-    if (file) {
-      const storageRef = ref(storage, `${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const prog = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setProgress(prog);
-        },
-        (err) => console.log(err),
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            // console.log(url);
-
-            db.collection("pics").add({
-              img: url,
-              name: file.name,
-            });
-          });
-        }
-      );
-    } else {
-      return;
-    }
-  };
-
-  const deleteFile = (id, name) => {
-    const desertRef = ref(storage, name);
-    deleteObject(desertRef)
-      .then(() => {
-        // File deleted successfully
-      })
-      .catch((error) => {
-        // Uh-oh, an error occurred!
-      });
-
-    db.collection("pics").doc(id).delete();
-  };
-
-  const deleteAllFiles = () => {
-    fileList.forEach((li) => {
-      deleteFile(li.id, li.data.name);
-    });
-  };
-
   return (
     <div className="flex w-screen overflow-hidden bg-gray_900 ">
+      {/* <Try /> */}
+      {data.showModal && <Modal />}
+
       <div
-        className={`w-screen md:w-2/5  bg-gray_900 min-h-screen transition-transform ${
+        className={`w-screen md:w-2/5 bg-gray_900 min-h-screen transition-transform ${
           data.selectedCon
             ? "translate-x-full w-0 invisible absolute md:visible md:static md:translate-x-0"
-            : " visible static translate-x-0"
+            : " visible static translate-x-0 "
         }`}
       >
-        <Selection>
-          <button
-            onClick={() => {
-              props.logOut();
-            }}
-            className="border p-2 rounded-md bg-red-600 text-white "
-          >
-            Log Out
-          </button>
-        </Selection>
+        <Selection logOut={props.logOut} />
       </div>
 
       <div
-        className={` w-screen md:w-3/5 bg-gray_900 min-h-screen  transition-transform ${
+        className={` w-screen md:w-3/5 bg-gray_900 min-h-screen transition-transform ${
           data.selectedCon
-            ? "visible static translate-x-0"
+            ? "visible static translate-x-0 "
             : " -translate-x-full w-0 invisible absolute md:visible md:static md:translate-x-0"
         }`}
       >

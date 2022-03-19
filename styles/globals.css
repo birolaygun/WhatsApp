@@ -11,13 +11,12 @@ html,
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
 }
-/* body{
-  background-image: url("");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center top;
-} */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+}
 
 .heightCalc {
   height: calc(100vh - 87px);
@@ -37,3 +36,49 @@ textarea {
   height: 40px;
   max-height: 144px;
 }
+/* *:focus {
+  outline: none;
+} */
+
+/* 
+
+redux:[
+  login: false,
+  user: {},
+  profileName: "",
+  profilePhoto: "",
+  selectedCon: "",
+  showModal: false,
+  dbUser:[]
+  connection:[]
+]
+
+db [
+  users
+{
+userMail:....,
+authName:....,
+authPhoto:...,
+profileName:...,
+profilePhoro:...,
+lastSeen:....,
+connects:..
+}
+
+connection:[
+sides=[user1, user2]
+messages:[
+      {
+          sender: user1,
+          recipient: user2
+          time: new Date(2022, 2, 13, 17, 51, 40, 0),
+          message:
+            " hello World  hello Worldhello Worldhello Worldhello Worldhello World hello Worldhello Worldhello Worldhello Worldhello World!!",
+          seen: false,
+        }
+  ]
+}
+
+
+
+] */
