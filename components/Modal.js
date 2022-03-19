@@ -15,14 +15,23 @@ const Modal = () => {
   };
 
   const handleSubmit = () => {
-    console.log("sdsa");
-    dispatch({
-      type: "ADD_FRİEND",
-      payload: data.friendsMail,
-    });
-    dispatch({
-      type: "HİDE_MODAL",
-    });
+    if (
+      !(
+        String(data.friendsMail).includes("@") &&
+        String(data.friendsMail).includes(".")
+      )
+    ) {
+      window.alert("Invalid e-mail adress");
+    } else {
+      console.log("handleSubmit");
+      dispatch({
+        type: "ADD_FRİEND",
+        payload: data.friendsMail,
+      });
+      dispatch({
+        type: "HİDE_MODAL",
+      });
+    }
   };
 
   return (
@@ -38,38 +47,28 @@ const Modal = () => {
           Add Friend
         </h2>
 
-        <form
+        <input
+          autoFocus="autofocus"
           id="modal"
-          action=""
-          onSubmit={() => {
-            handleSubmit();
+          onChange={(e) => {
+            dispatch({
+              type: "SET_FRIENDS_MAIL",
+              payload: e.target.value,
+            });
           }}
-        >
-          <input
-            autoFocus="autofocus"
-            id="modal"
-            onChange={(e) => {
-              dispatch({
-                type: "SET_FRIENDS_MAIL",
-                payload: e.target.value,
-              });
-            }}
-            value={data.friendsMail}
-            placeholder="e-mail"
-            type="email"
-            className="bg-iceWhite p-1 rounded-md focus-visible:outline-none w-full mb-3"
-          />
-          <div id="modal" className="flex justify-evenly ">
-            <input
-              onClick={() => {
-                handleSubmit();
-              }}
-              type="submit"
-              value="Submit"
-            />
-            <input type="reset" value="close" />
-          </div>{" "}
-        </form>
+          value={data.friendsMail}
+          placeholder="e-mail"
+          type="email"
+          className="bg-iceWhite p-1 rounded-md focus-visible:outline-none w-full mb-3"
+        />
+        <div className="flex justify-around ">
+          <button className="bg-gray_100 p-1 rounded-sm w-20" type="button" onClick={() => handleSubmit()}>
+            Add
+          </button>
+          <button className="bg-gray_100 p-1 rounded-sm w-20" type="submit" onClick={() => handleSubmit}>
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );

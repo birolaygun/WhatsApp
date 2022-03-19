@@ -1,19 +1,11 @@
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import db, { auth, provider, storage } from "../firebase";
-import {
-  deleteObject,
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
+
 import HomePage from "../components/HomePage";
 import { WhatsAppIcon } from "../components/icons";
-
-
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -100,7 +92,7 @@ export default function Home() {
       <main className="">
         {data.login ? (
           <div className="flex flex-col items-center">
-            <HomePage logOut={logOut} />
+            <HomePage />
           </div>
         ) : (
           <div className="bg-gray_500 w-full h-full absolute flex items-center justify-center flex-col">
@@ -113,7 +105,7 @@ export default function Home() {
             </p>
             <button
               onClick={login}
-              className="border p-2 rounded-xl bg-green_300  "
+              className="border p-2 rounded-xl bg-green_400  "
             >
               {" "}
               Login With Google{" "}
