@@ -11,33 +11,33 @@ const Messages = (props) => {
 
   useEffect(() => {
     if (
-      props.message.userSend &&
-      props.sortedMessages[props.i].userSend ===
-        props.sortedMessages[props.i - 1]?.userSend
+      props.message.writer === data.user.userMail &&
+      props.sortedMessages[props.i].writer ===
+        props.sortedMessages[props.i - 1]?.writer
     ) {
       setClassNm(
         "bg-green_600 text-iceWhite text-sm w-fit p-2 mt-1 rounded-md float-right block"
       );
     } else if (
-      props.message.userSend &&
-      props.sortedMessages[props.i].userSend !==
-        props.sortedMessages[props.i - 1]?.userSend
+      props.message.writer === data.user.userMail &&
+      props.sortedMessages[props.i].writer !==
+        props.sortedMessages[props.i - 1]?.writer
     ) {
       setClassNm(
         "bg-green_600 text-iceWhite text-sm w-fit p-2 mt-7 rounded-md float-right block"
       );
     } else if (
-      !props.message.userSend &&
-      props.sortedMessages[props.i].userSend ===
-        props.sortedMessages[props.i - 1]?.userSend
+      props.message.writer !== data.user.userMail &&
+      props.sortedMessages[props.i].writer ===
+        props.sortedMessages[props.i - 1]?.writer
     ) {
       setClassNm(
         "bg-gray_500 text-iceWhite text-sm w-fit p-2 mt-1 rounded-md float-left block"
       );
     } else if (
-      !props.message.userSend &&
-      props.sortedMessages[props.i].userSend !==
-        props.sortedMessages[props.i - 1]?.userSend
+      props.message.writer !== data.user.userMail &&
+      props.sortedMessages[props.i].writer !==
+        props.sortedMessages[props.i - 1]?.writer
     ) {
       setClassNm(
         "bg-gray_500 text-iceWhite text-sm w-fit p-2 mt-7 rounded-md float-left block"
@@ -45,8 +45,8 @@ const Messages = (props) => {
     }
 
     if (
-      props.sortedMessages[props.i].userSend !==
-      props.sortedMessages[props.i - 1]?.userSend
+      props.sortedMessages[props.i].writer !==
+      props.sortedMessages[props.i - 1]?.writer
     ) {
       setHideArrow(true);
     } else {
@@ -56,10 +56,12 @@ const Messages = (props) => {
 
   return (
     <div
-      className={`  flex ${props.message.userSend && " justify-end "} 
+      className={`  flex ${
+        props.message.writer === data.user.userMail && " justify-end "
+      } 
     ${hideArrow ? "mx-2" : "mx-7"}`}
     >
-      {!props.message.userSend && (
+      {props.message.writer !== data.user.userMail && (
         <div
           className={`-z-10 border-[10px] w-5 h-5 bg-transparant border-gray_500
              border-b-transparant border-l-transparant  relative left-2 top-7 ${
@@ -72,7 +74,7 @@ const Messages = (props) => {
         <div className="px-3"> {props.message.message}</div>
         <div
           className={`${
-            props.message.userSend && "justify-end"
+            props.message.writer === data.user.userMail && "justify-end"
           } flex items-center text-xs font`}
         >
           <div>
@@ -81,16 +83,20 @@ const Messages = (props) => {
           </div>
           <div className="text-blue_500 h-[16px] mb-2">
             {" "}
-            {props.message.seen && props.message.userSend && blueTick}
+            {props.message.seen &&
+              props.message.writer === data.user.userMail &&
+              blueTick}
           </div>
           <div className=" h-[16px] ">
             {" "}
-            {!props.message.seen && props.message.userSend && blueTick}
+            {!props.message.seen &&
+              props.message.writer === data.user.userMail &&
+              blueTick}
           </div>
         </div>
       </div>
 
-      {props.message.userSend && (
+      {props.message.writer === data.user.userMail && (
         <div
           className={`${
             !hideArrow && "hidden "

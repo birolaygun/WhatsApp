@@ -55,7 +55,15 @@ const Nav = (props) => {
       space-y-4 border-b  border-iceWhite border-opacity-20 h-[87px] 
       hidden md:flex items-center justify-between"
       >
-        <img className="w-12 h-12 rounded-full" src={data.user.photo} alt="" />
+        <img
+          className="w-12 h-12 rounded-full"
+          src={
+            data.user.profilePhoto
+              ? data.user.profilePhoto
+              : data.user.authPhoto
+          }
+          alt=""
+        />
         <div className="text-iceWhite flex items-center space-x-5">
           <div
             className="mb-3 cursor-pointer"

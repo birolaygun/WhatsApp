@@ -11,10 +11,14 @@ export default function Home() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
 
+  // db always reflesh
+
   const [user, setUser] = useState(null);
   const [list, setList] = useState({});
   const [dbUsers, setDbUsers] = useState([]);
   const [dbConnections, setDbConnections] = useState([]);
+  const [dbUserCount, setDbUserCount] = useState();
+  const [dbConnectionCount, setDbConnectionCount] = useState();
 
   useEffect(() => {
     db.collection("data").onSnapshot((ss) => {
@@ -34,14 +38,25 @@ export default function Home() {
     if (list[0]?.data?.users) {
       setDbUsers(list[0]?.data?.users);
     }
+
+    if (list[0]?.data?.users) {
+      setDbUserCount(list[0]?.data?.userCount);
+    }
+    if (list[0]?.data?.users) {
+      setDbConnectionCount(list[0]?.data?.connectionCount);
+    }
   }, [list]);
 
   useEffect(() => {
-    dispatch({
-      type: "REFLESH_DATAS",
-      payload: [dbUsers, dbConnections],
-    });
-  }, [dbUsers, dbConnections]);
+    if (dbUsers && dbConnections)
+      dispatch({
+        type: "REFLESH_DATAS",
+        payload: [dbUsers, dbConnections, dbUserCount, dbConnectionCount],
+      });
+  }, [dbUsers, dbConnections, dbUserCount, dbConnectionCount]);
+
+  // login
+
   const login = () => {
     auth.signInWithPopup(provider).catch((e) => console.log(e));
   };
@@ -56,16 +71,42 @@ export default function Home() {
     });
   }, []);
 
+
   useEffect(() => {
-    if (user) {
-      dispatch({
-        type: "LOGIN",
-        payload: [user.displayName, user.email, user.photoURL],
-      });
-    } else {
-      dispatch({ type: "LOGOUT", payload: "" });
+    if (user && data.dbUsers) {
+      if (data.dbUsers.find((fn) => fn.userMail === user.email)) {
+        dispatch({
+          type: "LOGIN",
+          payload: data.dbUsers.find((fn) => fn.userMail === user.email),
+        });
+      } else {
+        if (
+          Object.entries(data.dbUsers).length === data.dbUsersCount &&
+          Object.entries(data.dbConnections).length === data.dbConnectionCount
+        ) {
+          db.collection("data")
+            .doc("SNA9FltXA8h6x6xlt1Ml")
+            .update({
+              connection: data.dbConnections,
+              users: [
+                ...data.dbUsers,
+                {
+                  authName: user.displayName,
+                  authPhoto: user.photoURL,
+
+                  lastSeen: "",
+                  login: false,
+                  profileName: "",
+                  profilePhoto: "",
+                  userMail: user.email,
+                },
+              ],
+              userCount: dbUserCount + 1,
+            });
+        }
+      }
     }
-  }, [user]);
+  }, [user, data.dbUsers]);
 
   const logOut = () => {
     auth.signOut();
@@ -92,7 +133,7 @@ export default function Home() {
       <main className="">
         {data.login ? (
           <div className="flex flex-col items-center">
-            <HomePage />
+            <HomePage logOut={logOut} />
           </div>
         ) : (
           <div className="bg-gray_500 w-full h-full absolute flex items-center justify-center flex-col">

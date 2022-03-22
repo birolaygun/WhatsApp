@@ -17,13 +17,12 @@ const ConnectNav = () => {
     "Saturday",
   ];
 
-  let time = data.selectedCon.lastSeen;
-
+  let time = new Date(data.selectedCon.lastSeen);
   let timeReact;
 
   if (time) {
     if (time.toDateString() === new Date().toDateString()) {
-      timeReact = "Today" + String(new Date().toTimeString().slice(0, 5));
+      timeReact = "Today " + String(new Date().toTimeString().slice(0, 5));
     } else if (
       new Date().toDateString() > time.toDateString() &&
       new Date().getTime() - time.getTime() < 7 * 24 * 60 * 60 * 1000
@@ -33,6 +32,8 @@ const ConnectNav = () => {
       timeReact = time.toLocaleDateString();
     }
   }
+
+
 
   return (
     <div>
@@ -51,11 +52,21 @@ const ConnectNav = () => {
           </button>
 
           <div className="w-fit float-left flex-grow-0">
-            <img
-              className="w-12 h-12 rounded-full"
-              src={data.selectedCon.profilePhoto}
-              alt=""
-            />
+            {data.selectedCon.profilePhoto || data.selectedCon.authPhoto ? (
+              <img
+                className="w-12 h-12 rounded-full"
+                src={
+                  data.selectedCon.profilePhoto
+                    ? data.selectedCon.profilePhoto
+                    : data.selectedCon.authPhoto
+                }
+                alt=""
+              />
+            ) : (
+              <div className="w-12 h-12 rounded-full bg-blue_100 flex items-center justify-center text-2xl font-semibold">
+                {data.selectedCon.userMail[0].toUpperCase()}
+              </div>
+            )}
           </div>
 
           <div className="flex-1 flex items-center  justify-between p-3 flex-grow-2">

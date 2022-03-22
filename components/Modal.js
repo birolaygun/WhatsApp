@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import db, { auth, provider, storage } from "../firebase";
 
 const Modal = () => {
   const dispatch = useDispatch();
@@ -24,10 +25,76 @@ const Modal = () => {
       window.alert("Invalid e-mail adress");
     } else {
       console.log("handleSubmit");
-      dispatch({
-        type: "ADD_FRİEND",
-        payload: data.friendsMail,
-      });
+      // dispatch({
+      //   type: "ADD_FRİEND",
+      //   payload: data.friendsMail,
+      // });
+
+      if (
+        data.dbConnections.find(
+          (fn) =>
+            fn.sides.includes(data.friendsMail) &&
+            fn.sides.includes(data.user.userMail)
+        )
+      ) {
+        window.alert("This e-mail adress is already your friens");
+      } else if (
+        Object.entries(data.dbUsers).length === data.dbUsersCount &&
+        Object.entries(data.dbConnections).length === data.dbConnectionCount
+      ) {
+        if (data.dbUsers.find((fn) => fn.userMail === data.friendsMail)) {
+          console.log("1. çalıştı");
+          db.collection("data")
+            .doc("SNA9FltXA8h6x6xlt1Ml")
+            .update({
+              connection: [
+                ...data.dbConnections,
+                {
+                  messages: [],
+                  sides: [data.friendsMail, data.user.userMail],
+                  sideOneTyping: false,
+                  sideZeroTyping: false,
+                },
+              ],
+              connectionCount: data.dbConnectionCount + 1,
+
+              users: data.dbUsers,
+              userCount: data.dbUsersCount,
+            });
+        } else {
+          console.log("2. çalıştı");
+          db.collection("data")
+            .doc("SNA9FltXA8h6x6xlt1Ml")
+            .update({
+              connection: [
+                ...data.dbConnections,
+                {
+                  messages: [],
+                  sides: [data.friendsMail, data.user.userMail],
+                  sideOneTyping: false,
+                  sideZeroTyping: false,
+                },
+              ],
+              connectionCount: data.dbConnectionCount + 1,
+
+              users: [
+                ...data.dbUsers,
+                {
+                  authName: "",
+                  authPhoto: "",
+
+                  lastSeen: "",
+                  login: false,
+                  profileName: "",
+                  profilePhoto: "",
+                  userMail: data.friendsMail,
+                },
+              ],
+              userCount: data.dbUsersCount + 1,
+            });
+        }
+      }
+
       dispatch({
         type: "HİDE_MODAL",
       });
@@ -62,10 +129,18 @@ const Modal = () => {
           className="bg-iceWhite p-1 rounded-md focus-visible:outline-none w-full mb-3"
         />
         <div className="flex justify-around ">
-          <button className="bg-gray_100 p-1 rounded-sm w-20" type="button" onClick={() => handleSubmit()}>
+          <button
+            className="bg-gray_100 p-1 rounded-sm w-20"
+            type="button"
+            onClick={() => handleSubmit()}
+          >
             Add
           </button>
-          <button className="bg-gray_100 p-1 rounded-sm w-20" type="submit" onClick={() => handleSubmit}>
+          <button
+            className="bg-gray_100 p-1 rounded-sm w-20"
+            type="submit"
+            onClick={() => handleSubmit}
+          >
             Cancel
           </button>
         </div>

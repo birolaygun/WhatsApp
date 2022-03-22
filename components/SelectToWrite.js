@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { blueTick } from "./icons";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import db, { auth, provider, storage } from "../firebase";
 
 const days = [
   "Sunday",
@@ -34,9 +35,9 @@ const SelectToWrite = (props) => {
   let timeReact;
 
   if (props.lastMessage) {
-    time = props?.lastMessage.time;
+    time = new Date(props?.lastMessage.time);
     if (time.toDateString() === new Date().toDateString()) {
-      timeReact = new Date().toTimeString().slice(0, 5);
+      timeReact = time.toTimeString().slice(0, 5);
     } else if (
       new Date().toDateString() > time.toDateString() &&
       new Date().getTime() - time.getTime() < 7 * 24 * 60 * 60 * 1000
@@ -47,6 +48,45 @@ const SelectToWrite = (props) => {
     }
   }
 
+  const makeSeen = () => {
+    if (
+      Object.entries(data.dbUsers).length === data.dbUsersCount &&
+      Object.entries(data.dbConnections).length === data.dbConnectionCount
+    ) {
+      db.collection("data")
+        .doc("SNA9FltXA8h6x6xlt1Ml")
+        .update({
+          connection: data.dbConnections.map((connect) => {
+            if (
+              connect.sides.includes(data.user.userMail) &&
+              connect.sides.includes(data.selectedCon.userMail)
+            ) {
+              return {
+                ...connect,
+                messages: connect.messages.map((message) => {
+                  if (message.writer !== data.selectedCon.userMail) {
+                    return message;
+                  } else {
+                    return { ...message, seen: true };
+                  }
+                }),
+              };
+            } else {
+              return connect;
+            }
+          }),
+
+          connectionCount: data.dbConnectionCount,
+          users: data.dbUsers,
+          userCount: data.dbUsersCount,
+        });
+    }
+  };
+
+  useEffect(() => {
+    makeSeen();
+  }, [data.selectedCon]);
+
   return (
     <div
       onClick={() => {
@@ -54,6 +94,7 @@ const SelectToWrite = (props) => {
           type: "SELECT_CON",
           payload: props.senderEMail,
         });
+        makeSeen();
       }}
       className={
         selected
@@ -62,49 +103,62 @@ const SelectToWrite = (props) => {
       }
     >
       <div className="w-12 float-left mt-[12px] ">
-        <img
-          className="w-12 h-12 rounded-full"
-          src={props.profilePhoto}
-          alt=""
-        />
+        {props.profilePhoto ? (
+          <img
+            className="w-12 h-12 rounded-full"
+            src={props.profilePhoto}
+            alt="logo"
+          />
+        ) : (
+          <div className="w-12 h-12 rounded-full bg-blue_100 flex items-center justify-center text-2xl font-semibold">
+            {props.senderEMail[0].toUpperCase()}
+          </div>
+        )}
       </div>
 
       <div className="flex-1 flex items-center  justify-between p-3  border-b border-iceWhite border-opacity-20">
         <div className=" overflow-hidden flex flex-col items-start justify-start ml-2 flex-1">
           <h2 className="text-iceWhite font-bold whitespace-nowrap text-ellipsis ">
-            {props.senderName}
+            {props.senderName ? props.senderName : props.senderEMail}
           </h2>
 
           {props.lastMessage ? (
             <div className="flex items-center truncate text-ellipsis w-full overflow-hidden">
               <span
                 className={`${
-                  !(props.lastMessage?.seen && props.lastMessage?.userSend) &&
-                  "hidden"
+                  !(
+                    props.lastMessage?.seen &&
+                    props.lastMessage?.writer === data.user.userMail
+                  ) && "hidden"
                 } text-blue_500 `}
               >
                 {props.lastMessage.seen &&
-                  props.lastMessage.userSend &&
+                  props.lastMessage?.writer === data.user.userMail &&
                   blueTick}
               </span>
               <span
                 className={`${
-                  !(!props.lastMessage.seen && props.lastMessage.userSend) &&
-                  "hidden"
+                  !(
+                    !props.lastMessage.seen &&
+                    props.lastMessage?.writer === data.user.userMail
+                  ) && "hidden"
                 } text-iceWhite `}
               >
                 {!props.lastMessage.seen &&
-                  props.lastMessage.userSend &&
+                  props.lastMessage?.writer === data.user.userMail &&
                   blueTick}
               </span>
               <p
                 className={` ${
-                  !(props.group && !props.lastMessage.userSend) && "hidden"
+                  !(
+                    props.group &&
+                    !props.lastMessage?.writer === data.user.userMail
+                  ) && "hidden"
                 } text-iceWhite`}
               >
                 {props.group &&
-                  !props.lastMessage.userSend &&
-                  props.lastMessage.userSend}
+                  !props.lastMessage?.writer === data.user.userMail &&
+                  props.lastMessage?.writer === data.user.userMail}
                 :
               </p>
               <p className=" text-sm text-iceWhite text-opacity-80 truncate text-ellipsis w-full overflow-hidden ">
@@ -129,7 +183,7 @@ const SelectToWrite = (props) => {
             {timeReact}
           </div>
           <div
-            className={`pt-1 w-5 h-5 bg-green_400 rounded-full flex items-center justify-center text-[10px] ${
+            className={` w-5 h-5 bg-green_400 rounded-full flex items-center justify-center text-[10px] ${
               !props.unReadMessage && "hidden"
             }`}
           >

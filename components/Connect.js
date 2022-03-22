@@ -23,13 +23,18 @@ const Connect = () => {
   }
 
   useEffect(() => {
-    if (data.selectedCon.senderEMail) {
+    if (data.selectedCon) {
       setSortedMessages(
-        data.connects
-          .find((fn) => fn.senderEMail === data.selectedCon.senderEMail)
+        data.dbConnections
+          .filter(
+            (connect) =>
+              connect.sides.includes(data.user.userMail) &&
+              connect.sides.includes(data.selectedCon.userMail)
+          )[0]
           .messages.sort(compare)
       );
     }
+    console.log(sortedMessages);
   }, [data]);
 
   if (end) {

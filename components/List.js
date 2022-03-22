@@ -8,10 +8,10 @@ const List = () => {
   const { data } = useSelector((state) => state);
 
   function compare(b, a) {
-    if (a.lastMessageTime < b.lastMessageTime) {
+    if (a.messages.slice(-1)[0]?.time < b.messages.slice(-1)[0]?.time) {
       return -1;
     }
-    if (a.lastMessageTime > b.lastMessageTime) {
+    if (a.messages.slice(-1)[0]?.time > b.messages.slice(-1)[0]?.time) {
       return 1;
     }
     return 0;
@@ -19,21 +19,42 @@ const List = () => {
 
   return (
     <div className="  heightCalc scrollbar  hover:scrollbar-thumb-gray_500 scrollbar-thin">
-      {data.connects.sort(compare).map((connect, i) => (
-        <SelectToWrite
-          key={i}
-          senderEMail={connect.senderEMail}
-          senderName={connect.senderName}
-          profilePhoto={connect.profilePhoto}
-          lastMessage={connect.messages[Object.entries(connect.messages).length - 1]}
-          // lastMessageTime={connect.lastMessageTime}
-          unReadMessage={connect.unReadMessage}
-          // seen={connect.seen}
-          // userSend={connect.userSend}
-          group={connect.group}
-          sender={connect.sender}
-        />
-      ))}
+      {data.dbConnections
+        .filter((fl) => fl.sides.includes(data.user.userMail))
+        .sort(compare)
+        .map((connect, i) => {
+          let lastMessage = connect.messages?.slice(-1)[0];
+          let opposideMail = connect.sides.filter(
+            (fl) => fl !== data.user.userMail
+          );
+
+          let oppositeUser = data.dbUsers.find(
+            (fn) => fn.userMail == opposideMail
+          );
+
+          let unreadMessageCount = connect.messages.filter(
+            (fl) => fl.seen === false
+          ).length;
+
+          return (
+            <SelectToWrite
+              key={i}
+              senderEMail={oppositeUser.userMail}
+              senderName={
+                oppositeUser.profileName
+                  ? oppositeUser.profileName
+                  : oppositeUser.authName
+              }
+              profilePhoto={
+                oppositeUser.profilePhoto
+                  ? oppositeUser.profilePhoto
+                  : oppositeUser.authPhoto
+              }
+              lastMessage={lastMessage}
+              unReadMessage={unreadMessageCount}
+            />
+          );
+        })}
     </div>
   );
 };
