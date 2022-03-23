@@ -58,8 +58,12 @@ const SelectToWrite = (props) => {
         .update({
           connection: data.dbConnections.map((connect) => {
             if (
-              connect.sides.includes(data.user.userMail) &&
-              connect.sides.includes(data.selectedCon.userMail)
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.selectedCon.userMail) &&
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.user.userMail)
             ) {
               return {
                 ...connect,
@@ -106,7 +110,7 @@ const SelectToWrite = (props) => {
       }}
       className={
         selected
-          ? "bg-gray_300 px-3  transition-colors cursor-pointer "
+          ? "bg-gray_300 px-3 transition-colors cursor-pointer "
           : " transition-colors px-3 cursor-pointer hover:bg-gray_300 hover:bg-opacity-50 "
       }
     >

@@ -16,6 +16,74 @@ const Write = () => {
     autosize(document.getElementById("textarea"));
   }, [myMessage]);
 
+  useEffect(() => {
+    if (myMessage) {
+      db.collection("data")
+        .doc("SNA9FltXA8h6x6xlt1Ml")
+        .update({
+          connection: data.dbConnections.map((connect) => {
+            if (
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.selectedCon.userMail) &&
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.user.userMail)
+            ) {
+              return {
+                ...connect,
+                sides: connect.sides.map((mp) => {
+                  if (mp.user === data.user.userMail) {
+                    return { ...mp, typing: true };
+                  } else {
+                    return mp;
+                  }
+                }),
+              };
+            } else {
+              return connect;
+            }
+          }),
+
+          connectionCount: data.dbConnectionCount,
+          users: data.dbUsers,
+          userCount: data.dbUsersCount,
+        });
+    } else {
+      db.collection("data")
+        .doc("SNA9FltXA8h6x6xlt1Ml")
+        .update({
+          connection: data.dbConnections.map((connect) => {
+            if (
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.selectedCon.userMail) &&
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.user.userMail)
+            ) {
+              return {
+                ...connect,
+                sides: connect.sides.map((mp) => {
+                  if (mp.user === data.user.userMail) {
+                    return { ...mp, typing: false };
+                  } else {
+                    return mp;
+                  }
+                }),
+              };
+            } else {
+              return connect;
+            }
+          }),
+
+          connectionCount: data.dbConnectionCount,
+          users: data.dbUsers,
+          userCount: data.dbUsersCount,
+        });
+    }
+  }, [myMessage]);
+
   return (
     <div className="  bg-gray_500  w-full  flex items-end pb-4 px-5 text-gray_100 space-x-5 border-t border-t-gray_900 ">
       <div className="pb-[6px]">{laugh}</div>
@@ -39,14 +107,17 @@ const Write = () => {
           type="button"
           className="rotate-45 transition-all pb-[6px] "
           onClick={() => {
-
             db.collection("data")
               .doc("SNA9FltXA8h6x6xlt1Ml")
               .update({
                 connection: data.dbConnections.map((connect) => {
                   if (
-                    connect.sides.includes(data.user.userMail) &&
-                    connect.sides.includes(data.selectedCon.userMail)
+                    connect.sides
+                      .map((side) => side.user)
+                      .includes(data.selectedCon.userMail) &&
+                    connect.sides
+                      .map((side) => side.user)
+                      .includes(data.user.userMail)
                   ) {
                     return {
                       ...connect,
@@ -69,7 +140,6 @@ const Write = () => {
                 users: data.dbUsers,
                 userCount: data.dbUsersCount,
               });
-
             setMyMessage("");
           }}
         >

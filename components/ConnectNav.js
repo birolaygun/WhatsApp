@@ -33,41 +33,24 @@ const ConnectNav = () => {
       timeReact = time.toLocaleDateString();
     }
   }
-
-  let connection = data.dbConnections.find(
-    (fn) =>
-      fn.sides.includes(data.user.userMail) &&
-      fn.sides.includes(data.selectedCon.userMail)
-  );
-
-  let line = connection.sides.indexOf(data.selectedCon.userMail);
-
+  
   useEffect(() => {
-    console.log(data.dbConnections.find(
-      (fn) =>
-        fn.sides.includes(data.user.userMail) &&
-        fn.sides.includes(data.selectedCon.userMail).sideOneTyping
-    )
-    )
-    if (line === 1) {
+    if (data.selectedCon) {
       setTyping(
-        data.dbConnections.find(
-          (fn) =>
-            fn.sides.includes(data.user.userMail) &&
-            fn.sides.includes(data.selectedCon.userMail).sideOneTyping
-        )
-      );
-    } else {
-      setTyping(
-        data.dbConnections.find(
-          (fn) =>
-            fn.sides.includes(data.user.userMail) &&
-            fn.sides.includes(data.selectedCon.userMail).sideZeroTyping
-        )
+        data.dbConnections
+          .filter(
+            (connect) =>
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.selectedCon.userMail) &&
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.user.userMail)
+          )[0]
+          .sides.find((fn) => fn.user === data.selectedCon.userMail).typing
       );
     }
-    // console.log(typing);
-  }, [data.dbConnections]);
+  }, [data.dbConnections, data.selectedCon]);
 
   return (
     <div>
@@ -103,10 +86,14 @@ const ConnectNav = () => {
             )}
           </div>
 
-          <div className="flex-1 flex items-center  justify-between p-3 flex-grow-2">
-            <div className=" overflow-hidden flex flex-col items-start justify-start ml-2 flex-1">
+          <div className="flex-1 flex items-center  justify-between p-3 flex-grow-2 break-words">
+            <div className=" overflow-hidden flex flex-col items-start justify-start text-sm md:text-md flex-1 break-words">
               <h2 className="text-iceWhite font-bold whitespace-nowrap text-ellipsis ">
-                {data.selectedCon.senderName}
+                {data.selectedCon.profileName
+                  ? data.selectedCon.profileName
+                  : data.selectedCon.authName
+                  ? data.selectedCon.authName
+                  : data.selectedCon.userMail}
               </h2>
               {typing ? (
                 <div className="flex items-center truncate text-ellipsis w-full overflow-hidden text-iceWhite text-opacity-80">
@@ -116,7 +103,9 @@ const ConnectNav = () => {
                 <div className="flex items-center truncate text-ellipsis w-full overflow-hidden text-iceWhite text-opacity-80">
                   {data.selectedCon.login
                     ? "Online"
-                    : `last seen: ${timeReact}`}
+                    : data.selectedCon.lastSeen
+                    ? `last seen: ${timeReact}`
+                    : ""}
                 </div>
               )}
             </div>

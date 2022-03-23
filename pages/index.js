@@ -152,7 +152,7 @@ export default function Home() {
           connection: data.dbConnections,
           users: data.dbUsers.map((user) => {
             if (user.userMail === data.user.userMail) {
-              return { ...user, login: false };
+              return { ...user, login: false, lastSeen: String(new Date()) };
             } else {
               return user;
             }
@@ -179,14 +179,6 @@ export default function Home() {
       >
         redux
       </button>
-      {/* <button
-        className="absolute text-iceWhite opacity-10 z-50"
-        onClick={() => {
-          makeOffline();
-        }}
-      >
-        makeOffline
-      </button> */}
 
       <Head>
         <title>WhatsApp</title>

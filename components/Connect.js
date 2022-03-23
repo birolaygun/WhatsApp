@@ -29,13 +29,18 @@ const Connect = () => {
         data.dbConnections
           .filter(
             (connect) =>
-              connect.sides.includes(data.user.userMail) &&
-              connect.sides.includes(data.selectedCon.userMail)
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.selectedCon.userMail) &&
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.user.userMail)
           )[0]
           .messages.sort(compare)
       );
     }
   }, [data]);
+
 
   useEffect(() => {
     if (
@@ -48,8 +53,12 @@ const Connect = () => {
         .update({
           connection: data.dbConnections.map((connect) => {
             if (
-              connect.sides.includes(data.user.userMail) &&
-              connect.sides.includes(data.selectedCon.userMail)
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.selectedCon.userMail) &&
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.user.userMail)
             ) {
               return {
                 ...connect,
@@ -74,8 +83,10 @@ const Connect = () => {
   }, [
     data.dbConnections.filter(
       (connect) =>
-        connect.sides.includes(data.user.userMail) &&
-        connect.sides.includes(data.selectedCon.userMail)
+        connect.sides
+          .map((side) => side.user)
+          .includes(data.selectedCon.userMail) &&
+        connect.sides.map((side) => side.user).includes(data.user.userMail)
     )[0].messages.length,
   ]);
 

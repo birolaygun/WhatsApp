@@ -17,30 +17,32 @@ const List = () => {
     return 0;
   }
 
+  // data.dbConnections.filter((connect) =>
+  // connect.sides.some((mpp) => mpp.user === data.user.userMail )
+
   return (
     <div className="  heightCalc scrollbar  hover:scrollbar-thumb-gray_500 scrollbar-thin">
       {data.dbConnections
-        .filter((fl) => fl.sides.includes(data.user.userMail))
+        .filter((fl) => fl.sides.some((mpp) => mpp.user === data.user.userMail))
         .sort(compare)
         .map((connect, i) => {
           let lastMessage = connect.messages?.slice(-1)[0];
-          let opposideMail = connect.sides.filter(
-            (fl) => fl !== data.user.userMail
-          );
+          let opposideMail = connect.sides.map((fl) => fl.user).filter((flt) => flt !== data.user.userMail) 
 
           let oppositeUser = data.dbUsers.find(
             (fn) => fn.userMail == opposideMail
           );
 
+
           let unreadMessageCount = connect.messages.filter(
             (fl) => fl.writer !== data.user.userMail && fl.seen === false
           ).length;
 
-
           return (
+          
             <SelectToWrite
               key={i}
-              senderEMail={oppositeUser.userMail}
+              senderEMail={oppositeUser?.userMail}
               senderName={
                 oppositeUser.profileName
                   ? oppositeUser.profileName

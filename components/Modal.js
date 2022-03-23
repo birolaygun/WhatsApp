@@ -24,8 +24,6 @@ const Modal = () => {
     ) {
       window.alert("Invalid e-mail adress");
     } else {
-      console.log("handleSubmit");
-
       if (
         data.dbConnections.find(
           (fn) =>
@@ -47,9 +45,10 @@ const Modal = () => {
                 ...data.dbConnections,
                 {
                   messages: [],
-                  sides: [data.friendsMail, data.user.userMail],
-                  sideOneTyping: false,
-                  sideZeroTyping: false,
+                  sides: [
+                    { user: data.friendsMail, typing: false },
+                    { user: data.user.userMail, typing: false },
+                  ],
                 },
               ],
               connectionCount: data.dbConnectionCount + 1,
