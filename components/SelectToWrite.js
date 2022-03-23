@@ -87,6 +87,14 @@ const SelectToWrite = (props) => {
     makeSeen();
   }, [data.selectedCon]);
 
+  useEffect(() => {
+    if (data.selectedCon)
+      dispatch({
+        type: "SELECT_CON",
+        payload: data.selectedCon.userMail,
+      });
+  }, [data.dbUsers]);
+
   return (
     <div
       onClick={() => {

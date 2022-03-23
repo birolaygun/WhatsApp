@@ -7,6 +7,8 @@ import db, { auth, provider, storage } from "../firebase";
 import HomePage from "../components/HomePage";
 import { WhatsAppIcon } from "../components/icons";
 
+import { useBeforeunload } from "react-beforeunload";
+
 export default function Home() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
@@ -55,6 +57,8 @@ export default function Home() {
       });
   }, [dbUsers, dbConnections, dbUserCount, dbConnectionCount]);
 
+  useEffect(() => {}, [data.user]);
+
   // login
 
   const login = () => {
@@ -70,7 +74,6 @@ export default function Home() {
       }
     });
   }, []);
-
 
   useEffect(() => {
     if (user && data.dbUsers) {
@@ -102,16 +105,69 @@ export default function Home() {
                 },
               ],
               userCount: dbUserCount + 1,
+              connectionCount: data.connectionCount,
             });
         }
       }
     }
   }, [user, data.dbUsers]);
 
+  useEffect(() => {
+    if (
+      Object.entries(data.dbUsers).length === data.dbUsersCount &&
+      Object.entries(data.dbConnections).length === data.dbConnectionCount &&
+      data.user.login === false
+    ) {
+      db.collection("data")
+        .doc("SNA9FltXA8h6x6xlt1Ml")
+        .update({
+          connection: data.dbConnections,
+          users: data.dbUsers.map((user) => {
+            if (user.userMail === data.user.userMail) {
+              return { ...user, login: true };
+            } else {
+              return user;
+            }
+          }),
+          userCount: data.dbUsersCount,
+          connectionCount: data.dbConnectionCount,
+        });
+    }
+  }, [data.user]);
+
   const logOut = () => {
     auth.signOut();
     dispatch({ type: "LOGOUT", payload: "" });
   };
+
+  const makeOffline = () => {
+    if (
+      Object.entries(data.dbUsers).length === data.dbUsersCount &&
+      Object.entries(data.dbConnections).length === data.dbConnectionCount &&
+      data.user.login === true
+    ) {
+      db.collection("data")
+        .doc("SNA9FltXA8h6x6xlt1Ml")
+        .update({
+          connection: data.dbConnections,
+          users: data.dbUsers.map((user) => {
+            if (user.userMail === data.user.userMail) {
+              return { ...user, login: false };
+            } else {
+              return user;
+            }
+          }),
+          userCount: data.dbUsersCount,
+          connectionCount: data.dbConnectionCount,
+        });
+    } else {
+      console.log("hata");
+    }
+  };
+
+  useBeforeunload(() => {
+    makeOffline();
+  });
 
   return (
     <div>
@@ -123,6 +179,14 @@ export default function Home() {
       >
         redux
       </button>
+      {/* <button
+        className="absolute text-iceWhite opacity-10 z-50"
+        onClick={() => {
+          makeOffline();
+        }}
+      >
+        makeOffline
+      </button> */}
 
       <Head>
         <title>WhatsApp</title>

@@ -33,8 +33,9 @@ const List = () => {
           );
 
           let unreadMessageCount = connect.messages.filter(
-            (fl) => fl.seen === false
+            (fl) => fl.writer !== data.user.userMail && fl.seen === false
           ).length;
+
 
           return (
             <SelectToWrite

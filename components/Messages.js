@@ -9,6 +9,37 @@ const Messages = (props) => {
   const [classNm, setClassNm] = useState();
   const [hideArrow, setHideArrow] = useState();
 
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  let time = new Date(props.message.time);
+  let timeReact;
+
+  if (props.message.time) {
+    if (time.toDateString() === new Date().toDateString()) {
+      timeReact = "Today";
+    } else if (
+      new Date().toDateString() ===
+      new Date(time.getTime() + 24 * 60 * 60 * 1000).toDateString()
+    ) {
+      timeReact = "Yesterday";
+    } else if (
+      new Date().toDateString() > time.toDateString() &&
+      new Date().getTime() - time.getTime() < 7 * 24 * 60 * 60 * 1000
+    ) {
+      timeReact = days[time.getDay()];
+    } else {
+      timeReact = time.toLocaleDateString();
+    }
+  }
+
   useEffect(() => {
     if (
       props.message.writer === data.user.userMail &&
@@ -55,55 +86,68 @@ const Messages = (props) => {
   }, [props.sortedMessages, props.message]);
 
   return (
-    <div
-      className={`  flex ${
-        props.message.writer === data.user.userMail && " justify-end "
-      } 
-    ${hideArrow ? "mx-2" : "mx-7"}`}
-    >
-      {props.message.writer !== data.user.userMail && (
+    <div>
+      {new Date(props.sortedMessages[props.i].time).toDateString() !==
+        new Date(props.sortedMessages[props.i - 1]?.time).toDateString() && (
         <div
-          className={`-z-10 border-[10px] w-5 h-5 bg-transparant border-gray_500
+          className="bg-gray_500 px-3 rounded-md 
+       text-gray_100 text-opacity-60 text-center mx-auto my-2 w-min"
+        >
+          {timeReact}
+        </div>
+      )}
+      <div
+        className={`  flex ${
+          props.message.writer === data.user.userMail && " justify-end "
+        } 
+    ${hideArrow ? "mx-2" : "mx-7"}`}
+      >
+        {props.message.writer !== data.user.userMail && (
+          <div
+            className={`-z-10 border-[10px] w-5 h-5 bg-transparant border-gray_500
              border-b-transparant border-l-transparant  relative left-2 top-7 ${
                !hideArrow && "hidden "
              } `}
-        ></div>
-      )}
+          ></div>
+        )}
 
-      <div className={`${classNm} maxW `}>
-        <div className="px-3"> {props.message.message}</div>
-        <div
-          className={`${
-            props.message.writer === data.user.userMail && "justify-end"
-          } flex items-center text-xs font`}
-        >
-          <div>
-            {" "}
-            {new Date(props.message.time).toLocaleTimeString().slice(0, 5)}{" "}
-          </div>
-          <div className="text-blue_500 h-[16px] mb-2">
-            {" "}
-            {props.message.seen &&
-              props.message.writer === data.user.userMail &&
-              blueTick}
-          </div>
-          <div className=" h-[16px] ">
-            {" "}
-            {!props.message.seen &&
-              props.message.writer === data.user.userMail &&
-              blueTick}
+        <div className={`${classNm} maxW `}>
+          <div className="px-3 break-words"> {props.message.message}</div>
+          <div
+            className={`${
+              props.message.writer === data.user.userMail && "justify-end"
+            } flex items-center text-xs font`}
+          >
+            <div>
+              {" "}
+              {new Date(props.message.time)
+                .toLocaleTimeString()
+                .slice(0, 5)}{" "}
+            </div>
+            <div className="text-blue_500 h-[16px] mb-2">
+              {" "}
+              {props.message.seen &&
+                props.message.writer === data.user.userMail &&
+                blueTick}
+            </div>
+            <div className=" h-[16px] ">
+              {" "}
+              {!props.message.seen &&
+                props.message.writer === data.user.userMail &&
+                blueTick}
+            </div>
           </div>
         </div>
-      </div>
 
-      {props.message.writer === data.user.userMail && (
-        <div
-          className={`${
-            !hideArrow && "hidden "
-          } border-[10px] w-5 h-5 bg-transparant -z-10
+        {props.message.writer === data.user.userMail && (
+          <div
+            className={`${
+              !hideArrow && "hidden "
+            } border-[10px] w-5 h-5 bg-transparant -z-10
              border-b-transparant border-r-transparant border-green_600 relative top-7 -left-2`}
-        ></div>
-      )}
+          ></div>
+        )}
+      </div>{" "}
     </div>
   );
 };

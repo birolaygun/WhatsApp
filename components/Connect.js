@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Messages from "./Messages";
 import Write from "./Write";
+import db, { auth, provider, storage } from "../firebase";
 
 const Connect = () => {
   const dispatch = useDispatch();
@@ -34,8 +35,49 @@ const Connect = () => {
           .messages.sort(compare)
       );
     }
-    console.log(sortedMessages);
   }, [data]);
+
+  useEffect(() => {
+    if (
+      Object.entries(data.dbUsers).length === data.dbUsersCount &&
+      Object.entries(data.dbConnections).length === data.dbConnectionCount &&
+      data.selectedCon
+    ) {
+      db.collection("data")
+        .doc("SNA9FltXA8h6x6xlt1Ml")
+        .update({
+          connection: data.dbConnections.map((connect) => {
+            if (
+              connect.sides.includes(data.user.userMail) &&
+              connect.sides.includes(data.selectedCon.userMail)
+            ) {
+              return {
+                ...connect,
+                messages: connect.messages.map((message) => {
+                  if (message.writer !== data.selectedCon.userMail) {
+                    return message;
+                  } else {
+                    return { ...message, seen: true };
+                  }
+                }),
+              };
+            } else {
+              return connect;
+            }
+          }),
+
+          connectionCount: data.dbConnectionCount,
+          users: data.dbUsers,
+          userCount: data.dbUsersCount,
+        });
+    }
+  }, [
+    data.dbConnections.filter(
+      (connect) =>
+        connect.sides.includes(data.user.userMail) &&
+        connect.sides.includes(data.selectedCon.userMail)
+    )[0].messages.length,
+  ]);
 
   if (end) {
     setTimeout(() => {

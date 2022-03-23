@@ -25,10 +25,6 @@ const Modal = () => {
       window.alert("Invalid e-mail adress");
     } else {
       console.log("handleSubmit");
-      // dispatch({
-      //   type: "ADD_FRİEND",
-      //   payload: data.friendsMail,
-      // });
 
       if (
         data.dbConnections.find(

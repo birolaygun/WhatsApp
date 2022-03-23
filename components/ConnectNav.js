@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { callPhone, leftArrow, search, treeDats, videoCam } from "./icons";
@@ -6,6 +6,7 @@ import { callPhone, leftArrow, search, treeDats, videoCam } from "./icons";
 const ConnectNav = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
+  const [typing, setTyping] = useState(false);
 
   const days = [
     "Sunday",
@@ -33,7 +34,40 @@ const ConnectNav = () => {
     }
   }
 
+  let connection = data.dbConnections.find(
+    (fn) =>
+      fn.sides.includes(data.user.userMail) &&
+      fn.sides.includes(data.selectedCon.userMail)
+  );
 
+  let line = connection.sides.indexOf(data.selectedCon.userMail);
+
+  useEffect(() => {
+    console.log(data.dbConnections.find(
+      (fn) =>
+        fn.sides.includes(data.user.userMail) &&
+        fn.sides.includes(data.selectedCon.userMail).sideOneTyping
+    )
+    )
+    if (line === 1) {
+      setTyping(
+        data.dbConnections.find(
+          (fn) =>
+            fn.sides.includes(data.user.userMail) &&
+            fn.sides.includes(data.selectedCon.userMail).sideOneTyping
+        )
+      );
+    } else {
+      setTyping(
+        data.dbConnections.find(
+          (fn) =>
+            fn.sides.includes(data.user.userMail) &&
+            fn.sides.includes(data.selectedCon.userMail).sideZeroTyping
+        )
+      );
+    }
+    // console.log(typing);
+  }, [data.dbConnections]);
 
   return (
     <div>
@@ -74,9 +108,17 @@ const ConnectNav = () => {
               <h2 className="text-iceWhite font-bold whitespace-nowrap text-ellipsis ">
                 {data.selectedCon.senderName}
               </h2>
-              <div className="flex items-center truncate text-ellipsis w-full overflow-hidden text-iceWhite text-opacity-80">
-                last seen: {timeReact}
-              </div>
+              {typing ? (
+                <div className="flex items-center truncate text-ellipsis w-full overflow-hidden text-iceWhite text-opacity-80">
+                  typing...
+                </div>
+              ) : (
+                <div className="flex items-center truncate text-ellipsis w-full overflow-hidden text-iceWhite text-opacity-80">
+                  {data.selectedCon.login
+                    ? "Online"
+                    : `last seen: ${timeReact}`}
+                </div>
+              )}
             </div>
 
             <div className="flex items-center justify-center space-x-7 text-iceWhite text-opacity-80 w-min  ">

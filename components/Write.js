@@ -39,10 +39,6 @@ const Write = () => {
           type="button"
           className="rotate-45 transition-all pb-[6px] "
           onClick={() => {
-            dispatch({
-              type: "SEND_MESSAGE",
-              payload: myMessage,
-            });
 
             db.collection("data")
               .doc("SNA9FltXA8h6x6xlt1Ml")
