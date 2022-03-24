@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import db, { auth, provider, storage } from "../firebase";
 
 const STATE = {
-
   id: "SNA9FltXA8h6x6xlt1Ml",
   login: false,
   user: {},
@@ -15,15 +14,13 @@ const STATE = {
 
   selectedCon: "",
   showModal: false,
+  photoModal: false,
   showDropDown: false,
   friendsMail: "",
-
 };
 
 const data = function reducer(state = STATE, action) {
   switch (action.type) {
-
-
     case "REFLESH_DATAS": {
       if (action.payload) {
         return {
@@ -74,11 +71,23 @@ const data = function reducer(state = STATE, action) {
         showModal: true,
       };
     }
+    case "SHOW_PHOTOMODAL": {
+      return {
+        ...state,
+        photoModal: true,
+      };
+    }
     case "HİDE_MODAL": {
       return {
         ...state,
         showModal: false,
         friendsMail: "",
+      };
+    }
+    case "HİDE_PHOTOMODAL": {
+      return {
+        ...state,
+        photoModal: false,
       };
     }
     case "SET_FRIENDS_MAIL": {
@@ -127,15 +136,6 @@ const data = function reducer(state = STATE, action) {
       return state;
   }
 };
-
-// messages: [
-//   {
-//     userSend: true,
-//     time: new Date(2022, 2, 13, 17, 51, 40, 0),
-//     message:
-//       " hello World  hello Worldhello Worldhello Worldhello Worldhello World hello Worldhello Worldhello Worldhello Worldhello World!!",
-//     seen: false,
-//   },
 
 const combineReducer = combineReducers({
   data,

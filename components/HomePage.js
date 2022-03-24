@@ -13,6 +13,7 @@ import Selection from "./Selection";
 import Show from "./Show";
 import Modal from "./Modal";
 import Try from "./Try";
+import PhotoModal from "./PhotoModal";
 
 const HomePage = (props) => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const HomePage = (props) => {
     <div className="flex w-screen overflow-hidden bg-gray_900 ">
       {/* <Try /> */}
       {data.showModal && <Modal />}
+      {data.photoModal && <PhotoModal />}
 
       <div
         className={`w-screen md:w-2/5 bg-gray_900 min-h-screen transition-transform ${

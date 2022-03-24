@@ -17,7 +17,11 @@ const Write = () => {
   }, [myMessage]);
 
   useEffect(() => {
-    if (myMessage) {
+    if (
+      myMessage &&
+      Object.entries(data.dbUsers).length === data.dbUsersCount &&
+      Object.entries(data.dbConnections).length === data.dbConnectionCount
+    ) {
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
         .update({
@@ -87,7 +91,16 @@ const Write = () => {
   return (
     <div className="  bg-gray_500  w-full  flex items-end pb-4 px-5 text-gray_100 space-x-5 border-t border-t-gray_900 ">
       <div className="pb-[6px]">{laugh}</div>
-      <div className="pb-[6px]">{paperClip}</div>
+      <div
+        className="pb-[6px]"
+        onClick={() => {
+          setTimeout(() => {
+            dispatch({ type: "SHOW_PHOTOMODAL", payload: "" });
+          }, 5);
+        }}
+      >
+        {paperClip}
+      </div>
 
       <div className="w-full ">
         <textarea
@@ -121,6 +134,13 @@ const Write = () => {
                   ) {
                     return {
                       ...connect,
+                      sides: connect.sides.map((mp) => {
+                        if (mp.user === data.user.userMail) {
+                          return { ...mp, typing: false };
+                        } else {
+                          return mp;
+                        }
+                      }),
                       messages: [
                         ...connect.messages,
                         {
@@ -140,7 +160,10 @@ const Write = () => {
                 users: data.dbUsers,
                 userCount: data.dbUsersCount,
               });
-            setMyMessage("");
+
+            setTimeout(() => {
+              setMyMessage("");
+            }, 100);
           }}
         >
           {" "}

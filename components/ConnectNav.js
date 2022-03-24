@@ -33,7 +33,7 @@ const ConnectNav = () => {
       timeReact = time.toLocaleDateString();
     }
   }
-  
+
   useEffect(() => {
     if (data.selectedCon) {
       setTyping(
