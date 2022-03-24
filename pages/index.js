@@ -171,15 +171,6 @@ export default function Home() {
 
   return (
     <div>
-      <button
-        className="absolute text-iceWhite opacity-10 z-50"
-        onClick={() => {
-          console.log(data);
-        }}
-      >
-        redux
-      </button>
-
       <Head>
         <title>WhatsApp</title>
         <meta name="description" content="It's an education App" />
