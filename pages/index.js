@@ -55,7 +55,7 @@ export default function Home() {
         type: "REFLESH_DATAS",
         payload: [dbUsers, dbConnections, dbUserCount, dbConnectionCount],
       });
-  }, [dbUsers, dbConnections, dbUserCount, dbConnectionCount]);
+  }, [dbUsers, dbConnections, dbUserCount, dbConnectionCount, dispatch]);
 
   useEffect(() => {}, [data.user]);
 
@@ -110,7 +110,7 @@ export default function Home() {
         }
       }
     }
-  }, [user, data.dbUsers]);
+  }, [user, data.dbUsers,data.connectionCount, data.dbConnectionCount, data.dbConnections, data.dbUsersCount, dbUserCount, dispatch]);
 
   useEffect(() => {
     if (
@@ -197,7 +197,7 @@ export default function Home() {
               {WhatsAppIcon}
             </div>
             <p className="m-5 text-iceWhite max-w-md text-center">
-              This is not real WhatsApp. It's Birol Aygun's edication project.
+              This is not real WhatsApp. It is Birol Ayguns edication project.
               Please LOGIN and start messaging..
             </p>
             <button

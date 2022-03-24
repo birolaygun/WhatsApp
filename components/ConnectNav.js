@@ -105,7 +105,7 @@ const ConnectNav = () => {
                     ? "Online"
                     : data.selectedCon.lastSeen
                     ? `last seen: ${timeReact}`
-                    : "Not sign in yet"}
+                    : "Not login yet"}
                 </div>
               )}
             </div>
