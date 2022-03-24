@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import db, { auth, provider, storage } from "../firebase";
 
+import favicon from "../favicon.ico";
 import HomePage from "../components/HomePage";
 import { WhatsAppIcon } from "../components/icons";
 
@@ -174,9 +175,9 @@ export default function Home() {
       <Head>
         <title>WhatsApp</title>
         <meta name="description" content="It's an education App" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href={favicon} />
       </Head>
-
+      <img src={favicon} alt="" />
       <main className="">
         {data.login ? (
           <div className="flex flex-col items-center">
