@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { blueTick } from "./icons";
+import { blueTick, file } from "./icons";
 
 const Messages = (props) => {
   const dispatch = useDispatch();
@@ -111,8 +111,61 @@ const Messages = (props) => {
           ></div>
         )}
 
-        <div className={`${classNm} maxW `}>
-          <div className="px-3 break-words"> {props.message.message}</div>
+        <div
+          className={`${classNm} maxW ${
+            props.message.file?.type === "audio" && "w-full max-w-md"
+          }  `}
+        >
+          <div className="px-3 break-words  ">
+            {" "}
+            {props.message.file ? (
+              <div className="max-w-xl">
+                {props.message.file.type === "image" ? (
+                  <img
+                    src={props.message.file.url}
+                    alt=""
+                    dowload
+                    onClick={() => {
+                      dispatch({
+                        type: "SHOW_MEDIAMODAL",
+                        payload: props.message.file.url,
+                      });
+                    }}
+                    className="w-full object-contain cursor-pointer max-h-96 rounded-md shadow-md"
+                  />
+                ) : props.message.file.type === "video" ? (
+                  <video
+                    className="w-full object-contain rounded-md shadow-md"
+                    controls
+                    src={props.message.file.url}
+                  ></video>
+                ) : props.message.file.type === "audio" ? (
+                  <div className="flex flex-col items-center  w-full ">
+                    <audio
+                      id="messageAudio"
+                      controller="true"
+                      controls
+                      audiotracks="true"
+                      src={props.message.file.url}
+                      className="w-full my-2"
+                    ></audio>{" "}
+                    <p> {props.message.file.name} </p>
+                  </div>
+                ) : (
+                  <div className="text-center text-sm bg-green_800  p-2 rounded-md shadow-md">
+                    <a className="flex space-x-3" target="_blank" href={props.message.file.url}>
+                      {" "}
+                      <span>{file}</span>{" "}
+                      <span> {props.message.file.name}</span>
+                    </a>
+                  </div>
+                )}
+                <div className="mt-1">{props.message.message}</div>
+              </div>
+            ) : (
+              props.message.message
+            )}
+          </div>
           <div
             className={`${
               props.message.writer === data.user.userMail && "justify-end"

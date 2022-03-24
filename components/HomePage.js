@@ -14,6 +14,7 @@ import Show from "./Show";
 import Modal from "./Modal";
 import Try from "./Try";
 import PhotoModal from "./PhotoModal";
+import MediaModal from "./MediaModal";
 
 const HomePage = (props) => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const HomePage = (props) => {
       {/* <Try /> */}
       {data.showModal && <Modal />}
       {data.photoModal && <PhotoModal />}
+      {data.mediaModal && <MediaModal />}
 
       <div
         className={`w-screen md:w-2/5 bg-gray_900 min-h-screen transition-transform ${

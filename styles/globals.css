@@ -15,7 +15,7 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   text-indent: 1px;
-  text-overflow: '';
+  text-overflow: "";
 }
 
 .heightCalc {
@@ -36,49 +36,10 @@ textarea {
   height: 40px;
   max-height: 144px;
 }
-/* *:focus {
-  outline: none;
-} */
-
-/* 
-
-redux:[
-  login: false,
-  user: {},
-  profileName: "",
-  profilePhoto: "",
-  selectedCon: "",
-  showModal: false,
-  dbUser:[]
-  connection:[]
-]
-
-db [
-  users
-{
-userMail:....,
-authName:....,
-authPhoto:...,
-profileName:...,
-profilePhoro:...,
-lastSeen:....,
-connects:..
+#messageAudio::-webkit-media-controls-current-time-display,
+#messageAudio::-webkit-media-controls-time-remaining-display {
+  font-size: 10px;
 }
-
-connection:[
-sides=[user1, user2]
-messages:[
-      {
-          sender: user1,
-          recipient: user2
-          time: new Date(2022, 2, 13, 17, 51, 40, 0),
-          message:
-            " hello World  hello Worldhello Worldhello Worldhello Worldhello World hello Worldhello Worldhello Worldhello Worldhello World!!",
-          seen: false,
-        }
-  ]
+#messageAudio {
+  
 }
-
-
-
-] */

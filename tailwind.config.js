@@ -23,6 +23,7 @@ module.exports = {
       green_400: "#00a884",
       green_500: "#1c5753",
       green_600: "#005c4b",
+      green_800: "#004c4b",
 
       gray_100: "#babdc2",
       gray_300: "#2a3942",
@@ -58,7 +59,7 @@ module.exports = {
         fadeInDown: {
           "0%": {
             opacity: 0,
-            transform: "translateY(-10%)",
+            transform: "translateY(-50%)",
           },
           "100%": {
             opacity: 1,
@@ -69,7 +70,7 @@ module.exports = {
       animation: {
         slideInLeft: "slideInLeft 500ms",
         fadeIn: "fadeIn 500ms",
-        fadeInDown: "fadeInDown 500ms",
+        fadeInDown: "fadeInDown 1000ms",
       },
       flexGrow: {
         2: 2,

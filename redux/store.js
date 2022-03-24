@@ -15,6 +15,8 @@ const STATE = {
   selectedCon: "",
   showModal: false,
   photoModal: false,
+  mediaModal: false,
+  mediaModalUrl: "",
   showDropDown: false,
   friendsMail: "",
 };
@@ -69,6 +71,21 @@ const data = function reducer(state = STATE, action) {
       return {
         ...state,
         showModal: true,
+      };
+    }
+    case "SHOW_MEDIAMODAL": {
+      console.log(action);
+      return {
+        ...state,
+        mediaModal: true,
+        mediaModalUrl: action.payload,
+      };
+    }
+    case "HIDE_MEDIAMODAL": {
+      return {
+        ...state,
+        mediaModal: false,
+        mediaModalUrl: "",
       };
     }
     case "SHOW_PHOTOMODAL": {

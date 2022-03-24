@@ -11,6 +11,7 @@ const Write = () => {
   const { data } = useSelector((state) => state);
 
   const [myMessage, setMyMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     autosize(document.getElementById("textarea"));
@@ -117,9 +118,11 @@ const Write = () => {
 
       {myMessage ? (
         <button
+          disabled={loading}
           type="button"
           className="rotate-45 transition-all pb-[6px] "
           onClick={() => {
+            setLoading(true);
             db.collection("data")
               .doc("SNA9FltXA8h6x6xlt1Ml")
               .update({
@@ -148,6 +151,7 @@ const Write = () => {
                           seen: false,
                           time: String(new Date()),
                           writer: data.user.userMail,
+                          file: false,
                         },
                       ],
                     };
@@ -159,11 +163,11 @@ const Write = () => {
                 connectionCount: data.dbConnectionCount,
                 users: data.dbUsers,
                 userCount: data.dbUsersCount,
+              })
+              .then(() => {
+                setMyMessage("");
+                setLoading(false);
               });
-
-            setTimeout(() => {
-              setMyMessage("");
-            }, 100);
           }}
         >
           {" "}
