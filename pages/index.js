@@ -55,7 +55,7 @@ export default function Home() {
         type: "REFLESH_DATAS",
         payload: [dbUsers, dbConnections, dbUserCount, dbConnectionCount],
       });
-  }, [dbUsers, dbConnections, dbUserCount, dbConnectionCount, dispatch]);
+  }, [dbUsers, dbConnections, dbUserCount, dbConnectionCount]);
 
   useEffect(() => {}, [data.user]);
 
@@ -110,7 +110,7 @@ export default function Home() {
         }
       }
     }
-  }, [user, data.dbUsers,data.connectionCount, data.dbConnectionCount, data.dbConnections, data.dbUsersCount, dbUserCount, dispatch]);
+  }, [user]);
 
   useEffect(() => {
     if (

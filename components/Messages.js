@@ -153,7 +153,8 @@ const Messages = (props) => {
                   </div>
                 ) : (
                   <div className="text-center text-sm bg-green_800  p-2 rounded-md shadow-md">
-                    <a className="flex space-x-3" target="_blank" href={props.message.file.url}>
+                    {/* <a className="flex space-x-3" target="_blank" href={props.message.file.url}> */}
+                    <a className="flex space-x-3" href={props.message.file.url}>
                       {" "}
                       <span>{file}</span>{" "}
                       <span> {props.message.file.name}</span>
