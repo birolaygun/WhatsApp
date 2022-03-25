@@ -12,6 +12,7 @@ const STATE = {
   dbConnectionCount: -1,
   dbUsersCount: -1,
 
+  session: {},
   selectedCon: "",
   showModal: false,
   photoModal: false,
@@ -35,6 +36,12 @@ const data = function reducer(state = STATE, action) {
       }
     }
 
+    case "SET_SESSION": {
+      return {
+        ...state,
+        session: action.payload,
+      };
+    }
     case "LOGIN": {
       return {
         ...state,

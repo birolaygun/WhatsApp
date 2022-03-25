@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import db, { auth, provider, storage } from "../firebase";
+import { signIn, signOut, useSession } from "next-auth/react";
 
-import favicon from "../favicon.ico";
 import HomePage from "../components/HomePage";
 import { WhatsAppIcon } from "../components/icons";
 
@@ -58,32 +58,37 @@ export default function Home() {
       });
   }, [dbUsers, dbConnections, dbUserCount, dbConnectionCount]);
 
-  useEffect(() => {}, [data.user]);
+  // useEffect(() => {
+  //   auth.onAuthStateChanged((authUser) => {
+  //     if (authUser) {
+  //       setUser(authUser);
+  //     } else {
+  //       setUser(null);
+  //     }
+  //   });
+  // }, []);
 
-  // login
+  // const logOut = () => {
+  //   auth.signOut();
+  //   dispatch({ type: "LOGOUT", payload: "" });
+  // };
 
-  const login = () => {
-    auth.signInWithPopup(provider).catch((e) => console.log(e));
-  };
-
+  console.log(data.session);
   useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        setUser(authUser);
-      } else {
-        setUser(null);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (user && data.dbUsers) {
-      if (data.dbUsers.find((fn) => fn.userMail === user.email)) {
+    if (data.session.image && data.dbUsers) {
+      if (
+        data.dbUsers.find((fn) => fn.userMail === data.session.sessionEmail)
+      ) {
+        console.log("loginnn");
         dispatch({
           type: "LOGIN",
-          payload: data.dbUsers.find((fn) => fn.userMail === user.email),
+          payload: data.dbUsers.find(
+            (fn) => fn.userMail === data.session.sessionEmail
+          ),
         });
       } else {
+        console.log("loginnn 222");
+
         if (
           Object.entries(data.dbUsers).length === data.dbUsersCount &&
           Object.entries(data.dbConnections).length === data.dbConnectionCount
@@ -95,14 +100,14 @@ export default function Home() {
               users: [
                 ...data.dbUsers,
                 {
-                  authName: user.displayName,
-                  authPhoto: user.photoURL,
+                  authName: data.session.sessionName,
+                  authPhoto: data.session.sessionImage,
 
                   lastSeen: "",
                   login: false,
                   profileName: "",
                   profilePhoto: "",
-                  userMail: user.email,
+                  userMail: data.session.sessionEmail,
                 },
               ],
               userCount: dbUserCount + 1,
@@ -111,7 +116,7 @@ export default function Home() {
         }
       }
     }
-  }, [user]);
+  }, [data.session]);
 
   useEffect(() => {
     if (
@@ -136,11 +141,6 @@ export default function Home() {
     }
   }, [data.user]);
 
-  const logOut = () => {
-    auth.signOut();
-    dispatch({ type: "LOGOUT", payload: "" });
-  };
-
   const makeOffline = () => {
     if (
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
@@ -162,7 +162,7 @@ export default function Home() {
           connectionCount: data.dbConnectionCount,
         });
     } else {
-      console.log("hata");
+      console.log("çıkış hatası");
     }
   };
 
@@ -175,9 +175,8 @@ export default function Home() {
       <Head>
         <title>WhatsApp</title>
         <meta name="description" content="It's an education App" />
-        <link rel="icon" href={favicon} />
       </Head>
-      <img src={favicon} alt="" />
+
       <main className="">
         {data.login ? (
           <div className="flex flex-col items-center">
@@ -193,11 +192,11 @@ export default function Home() {
               Please LOGIN and start messaging..
             </p>
             <button
-              onClick={login}
+              onClick={() => signIn()}
               className="border p-2 rounded-xl bg-green_400  "
             >
               {" "}
-              Login With Google{" "}
+              Login To Contiue{" "}
             </button>
           </div>
         )}
