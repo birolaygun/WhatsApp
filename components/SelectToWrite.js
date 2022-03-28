@@ -188,7 +188,7 @@ const SelectToWrite = (props) => {
         <div className="flex items-end justify-center flex-col w-min  ">
           <div
             className={
-              props.unReadMessage && props.senderEMail !== data.selectedCon.userMail
+              props.unReadMessage > 0 && props.senderEMail !== data.selectedCon.userMail
                 ? "text-green_400 text-sm "
                 : "text-iceWhite text-opacity-80 text-sm"
             }
@@ -197,7 +197,7 @@ const SelectToWrite = (props) => {
           </div>
           <div
             className={` w-5 h-5 bg-green_400 rounded-full flex items-center justify-center text-[10px] ${
-              !props.unReadMessage && props.senderEMail === data.selectedCon.userMail && "hidden"
+              props.unReadMessage === 0 || props.senderEMail === data.selectedCon.userMail && "hidden"
             }`}
           >
             { props.unReadMessage}

@@ -157,14 +157,7 @@ export default function Home() {
         <title>WhatsApp</title>
         <meta name="description" content="It's an education App" />
       </Head>
-      <button
-        className="absolute z-50 top-0 left-0"
-        onClick={() => {
-          console.log(data);
-        }}
-      >
-        redux
-      </button>
+     
       <main className="">
         {data.login ? (
           <div className="flex flex-col items-center">
