@@ -53,6 +53,8 @@ const SelectToWrite = (props) => {
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
       Object.entries(data.dbConnections).length === data.dbConnectionCount
     ) {
+      console.log("connect");
+
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
         .update({
@@ -65,6 +67,7 @@ const SelectToWrite = (props) => {
                 .map((side) => side.user)
                 .includes(data.user.userMail)
             ) {
+              console.log(connect);
               return {
                 ...connect,
                 messages: connect.messages.map((message) => {
