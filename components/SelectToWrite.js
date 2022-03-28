@@ -53,7 +53,6 @@ const SelectToWrite = (props) => {
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
       Object.entries(data.dbConnections).length === data.dbConnectionCount
     ) {
-
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
         .update({
@@ -200,7 +199,8 @@ const SelectToWrite = (props) => {
               !props.unReadMessage && "hidden"
             }`}
           >
-            {props.unReadMessage}
+            {props.senderEMail !== data.selectedCon.userMail &&
+              props.unReadMessage}
           </div>
         </div>
       </div>
