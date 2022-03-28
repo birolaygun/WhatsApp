@@ -99,7 +99,7 @@ export default function Home() {
         }
       }
     }
-  }, [data.session]);
+  }, [data.session, data.dbUsers]);
 
   useEffect(() => {
     if (
@@ -168,7 +168,7 @@ export default function Home() {
       <main className="">
         {data.login ? (
           <div className="flex flex-col items-center">
-            <HomePage logOut={logOut} />
+            <HomePage />
           </div>
         ) : (
           <div className="bg-gray_500 w-full h-full absolute flex items-center justify-center flex-col">
