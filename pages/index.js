@@ -87,7 +87,7 @@ export default function Home() {
                   authPhoto: data.session.sessionImage,
 
                   lastSeen: "",
-                  login: false,
+                  login: true,
                   profileName: "",
                   profilePhoto: "",
                   userMail: data.session.sessionEmail,
@@ -99,7 +99,7 @@ export default function Home() {
         }
       }
     }
-  }, [data.session, data.dbUsers]);
+  }, [data.session]);
 
   useEffect(() => {
     if (
