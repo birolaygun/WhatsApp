@@ -62,7 +62,10 @@ const Modal = () => {
                 ...data.dbConnections,
                 {
                   messages: [],
-                  sides: [data.friendsMail, data.user.userMail],
+                  sides: [
+                    { user: data.friendsMail, typing: false },
+                    { user: data.user.userMail, typing: false },
+                  ],
                   sideOneTyping: false,
                   sideZeroTyping: false,
                 },
