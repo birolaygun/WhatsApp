@@ -20,15 +20,6 @@ const PhotoModal = () => {
   const filePickerRef = useRef(null);
   const [message, setMessage] = useState("");
 
-  // window.onclick = (e) => {
-  //   console.log(e.target.id);
-  //   if (data.photoModal && e.target.id !== "photoModal") {
-  //     dispatch({
-  //       type: "HİDE_PHOTOMODAL",
-  //     });
-  //   }
-  // };
-
   const addFile = (file) => {
     if (file) {
       const storageRef = ref(
@@ -183,13 +174,7 @@ const PhotoModal = () => {
             </div>
           )}
         </div>
-        <form
-          className="flex flex-col items-center"
-          onSubmit={() => {
-            addFile(file);
-          }}
-          action="#"
-        >
+        <div className="flex flex-col items-center" action="#">
           <input
             className="border"
             type="file"
@@ -209,7 +194,12 @@ const PhotoModal = () => {
             className="bg-iceWhite p-1 rounded-md focus-visible:outline-none w-full mb-3"
           />
           <div className="flex justify-around w-full mt-2">
-            <button className="bg-gray_100 p-1 rounded-sm w-20" type="submit">
+            <button
+              className="bg-gray_100 p-1 rounded-sm w-20"
+              onClick={() => {
+                addFile(file);
+              }}
+            >
               Send
             </button>
             <button
@@ -227,7 +217,7 @@ const PhotoModal = () => {
           <h1 className="text-center text-iceWhite font-semibold h-5 mt-2">
             {progress < 100 && progress > 0 ? progress + "%" : ""}
           </h1>
-        </form>
+        </div>
       </div>
     </div>
   );

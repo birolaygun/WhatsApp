@@ -1,12 +1,33 @@
-import React, { useState } from "react";
 import { camera, plus, search, treeDats } from "./icons";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Dropdown from "./Dropdown";
+import { useEffect, useState } from "react";
 
-const Nav = (props) => {
+const Nav = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
+
+  const [unreadPersonCount, setUnreadPersonCount] = useState();
+
+  useEffect(() => {
+    setUnreadPersonCount(
+      Object.entries(
+        data.dbConnections
+          ?.filter((fl) => {
+            return (
+              fl.sides[0].user === data.user.userMail ||
+              fl.sides[1].user === data.user.userMail
+            );
+          })
+          .filter((fin) => {
+            return fin.messages.some(
+              (sm) => sm.writer !== data.user.userMail && sm.seen === false
+            );
+          })
+      ).length
+    );
+  }, [data]);
 
   return (
     <div>
@@ -21,13 +42,13 @@ const Nav = (props) => {
                   dispatch({
                     type: "SHOW_MODAL",
                   });
-                }, 0);
+                }, 1);
               }}
             >
               {plus}
             </div>
             <div className="absolute  right-4 mt-3">
-              <Dropdown logOut={props.logOut} />
+              <Dropdown />
             </div>
           </div>
         </div>
@@ -35,15 +56,17 @@ const Nav = (props) => {
           <div className="mb-2">{camera}</div>
 
           <div className="flex items-center justify-between w-full px-3">
-            <div className="flex items-center px-2 border-b-2 border-green_600 pb-1">
+            <div className="flex items-center px-2 border-b-2 border-green_400 pb-1">
               CHATS{" "}
-              <span
-                className={` ${
-                  data.chatsBadge < 100 ? "h-4 w-4" : "h-5 w-5"
-                } text-gray_900 ml-2  bg-green_400 rounded-full p-1 text-[10px] flex items-center justify-center`}
-              >
-                {data.chatsBadge}
-              </span>
+              {unreadPersonCount > 0 && (
+                <span
+                  className={` ${
+                    data.chatsBadge < 100 ? "h-4 w-4" : "h-5 w-5"
+                  } text-gray_900 ml-2  bg-green_400 rounded-full p-1 text-[10px] flex items-center justify-center`}
+                >
+                  {unreadPersonCount}
+                </span>
+              )}
             </div>
             <div>STATUS</div>
             <div>CALLS</div>
@@ -77,7 +100,7 @@ const Nav = (props) => {
           >
             {plus}
           </div>
-          <Dropdown logOut={props.logOut} />
+          <Dropdown />
         </div>
       </div>{" "}
     </div>

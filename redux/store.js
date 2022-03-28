@@ -12,7 +12,7 @@ const STATE = {
   dbConnectionCount: -1,
   dbUsersCount: -1,
 
-  session: {},
+  session: null,
   selectedCon: "",
   showModal: false,
   photoModal: false,
@@ -81,7 +81,6 @@ const data = function reducer(state = STATE, action) {
       };
     }
     case "SHOW_MEDIAMODAL": {
-      console.log(action);
       return {
         ...state,
         mediaModal: true,

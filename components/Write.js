@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import ReactTextareaAutosize from "react-textarea-autosize";
 import { laugh, mic, paperClip, send } from "./icons";
 import autosize from "autosize";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import db, { auth, provider, storage } from "../firebase";
+import db from "../firebase";
 
 const Write = () => {
   const dispatch = useDispatch();
@@ -89,6 +88,54 @@ const Write = () => {
     }
   }, [myMessage]);
 
+  const sendAMessage = () => {
+    setLoading(true);
+    db.collection("data")
+      .doc("SNA9FltXA8h6x6xlt1Ml")
+      .update({
+        connection: data.dbConnections.map((connect) => {
+          if (
+            connect.sides
+              .map((side) => side.user)
+              .includes(data.selectedCon.userMail) &&
+            connect.sides.map((side) => side.user).includes(data.user.userMail)
+          ) {
+            return {
+              ...connect,
+              sides: connect.sides.map((mp) => {
+                if (mp.user === data.user.userMail) {
+                  return { ...mp, typing: false };
+                } else {
+                  return mp;
+                }
+              }),
+              messages: [
+                ...connect.messages,
+                {
+                  message: myMessage,
+                  seen: false,
+                  time: String(new Date()),
+                  writer: data.user.userMail,
+                  file: false,
+                },
+              ],
+            };
+          } else {
+            return connect;
+          }
+        }),
+
+        connectionCount: data.dbConnectionCount,
+        users: data.dbUsers,
+        userCount: data.dbUsersCount,
+      })
+      .then(() => {
+        setMyMessage("");
+        setLoading(false);
+        document.getElementById("textarea").style.height = "40px";
+      });
+  };
+
   return (
     <div className="  bg-gray_500  w-full  flex items-end pb-4 px-5 text-gray_100 space-x-5 border-t border-t-gray_900 ">
       <div className="pb-[6px]">{laugh}</div>
@@ -97,7 +144,7 @@ const Write = () => {
         onClick={() => {
           setTimeout(() => {
             dispatch({ type: "SHOW_PHOTOMODAL", payload: "" });
-          }, 5);
+          }, 1);
         }}
       >
         {paperClip}
@@ -122,52 +169,7 @@ const Write = () => {
           type="button"
           className="rotate-45 transition-all pb-[6px] "
           onClick={() => {
-            setLoading(true);
-            db.collection("data")
-              .doc("SNA9FltXA8h6x6xlt1Ml")
-              .update({
-                connection: data.dbConnections.map((connect) => {
-                  if (
-                    connect.sides
-                      .map((side) => side.user)
-                      .includes(data.selectedCon.userMail) &&
-                    connect.sides
-                      .map((side) => side.user)
-                      .includes(data.user.userMail)
-                  ) {
-                    return {
-                      ...connect,
-                      sides: connect.sides.map((mp) => {
-                        if (mp.user === data.user.userMail) {
-                          return { ...mp, typing: false };
-                        } else {
-                          return mp;
-                        }
-                      }),
-                      messages: [
-                        ...connect.messages,
-                        {
-                          message: myMessage,
-                          seen: false,
-                          time: String(new Date()),
-                          writer: data.user.userMail,
-                          file: false,
-                        },
-                      ],
-                    };
-                  } else {
-                    return connect;
-                  }
-                }),
-
-                connectionCount: data.dbConnectionCount,
-                users: data.dbUsers,
-                userCount: data.dbUsersCount,
-              })
-              .then(() => {
-                setMyMessage("");
-                setLoading(false);
-              });
+            sendAMessage();
           }}
         >
           {" "}

@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Messages from "./Messages";
-import Write from "./Write";
-import db, { auth, provider, storage } from "../firebase";
+import db from "../firebase";
 
 const Connect = () => {
   const dispatch = useDispatch();
@@ -14,10 +13,10 @@ const Connect = () => {
   const end = document.getElementById("end");
 
   function compare(a, b) {
-    if (a.time < b.time) {
+    if (new Date(a.time).getTime() < new Date(b.time).getTime()) {
       return -1;
     }
-    if (a.time > b.time) {
+    if (new Date(a.time).getTime() > new Date(b.time).getTime()) {
       return 1;
     }
     return 0;
@@ -40,7 +39,6 @@ const Connect = () => {
       );
     }
   }, [data]);
-
 
   useEffect(() => {
     if (
@@ -101,16 +99,9 @@ const Connect = () => {
       className="scrollbar  
      hover:scrollbar-thumb-gray_500 scrollbar-thin flex flex-col justify-between "
     >
-      <div className="">
+      <div className="py-2">
         {" "}
-        <div
-          className="
-        // h-[200px]
-        "
-        >
-          {" "}
-          fdg{" "}
-        </div>
+
         {sortedMessages.length !== 0 ? (
           sortedMessages.map((message, i) => {
             return (

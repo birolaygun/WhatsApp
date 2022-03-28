@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import db, { auth, provider, storage } from "../firebase";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession, logOut } from "next-auth/react";
+import { useRouter } from "next/router";
 
 import HomePage from "../components/HomePage";
 import { WhatsAppIcon } from "../components/icons";
@@ -14,6 +15,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
 
+  const router = useRouter();
   // db always reflesh
 
   const [user, setUser] = useState(null);
@@ -58,28 +60,11 @@ export default function Home() {
       });
   }, [dbUsers, dbConnections, dbUserCount, dbConnectionCount]);
 
-  // useEffect(() => {
-  //   auth.onAuthStateChanged((authUser) => {
-  //     if (authUser) {
-  //       setUser(authUser);
-  //     } else {
-  //       setUser(null);
-  //     }
-  //   });
-  // }, []);
-
-  // const logOut = () => {
-  //   auth.signOut();
-  //   dispatch({ type: "LOGOUT", payload: "" });
-  // };
-
-  console.log(data.session);
   useEffect(() => {
-    if (data.session.image && data.dbUsers) {
+    if (data.session && data.dbUsers.length > 0) {
       if (
         data.dbUsers.find((fn) => fn.userMail === data.session.sessionEmail)
       ) {
-        console.log("loginnn");
         dispatch({
           type: "LOGIN",
           payload: data.dbUsers.find(
@@ -87,8 +72,6 @@ export default function Home() {
           ),
         });
       } else {
-        console.log("loginnn 222");
-
         if (
           Object.entries(data.dbUsers).length === data.dbUsersCount &&
           Object.entries(data.dbConnections).length === data.dbConnectionCount
@@ -116,7 +99,7 @@ export default function Home() {
         }
       }
     }
-  }, [data.session]);
+  }, [data.session, data.dbUsers]);
 
   useEffect(() => {
     if (
@@ -161,8 +144,6 @@ export default function Home() {
           userCount: data.dbUsersCount,
           connectionCount: data.dbConnectionCount,
         });
-    } else {
-      console.log("çıkış hatası");
     }
   };
 
@@ -176,7 +157,6 @@ export default function Home() {
         <title>WhatsApp</title>
         <meta name="description" content="It's an education App" />
       </Head>
-
       <main className="">
         {data.login ? (
           <div className="flex flex-col items-center">
@@ -192,7 +172,10 @@ export default function Home() {
               Please LOGIN and start messaging..
             </p>
             <button
-              onClick={() => signIn()}
+              onClick={(e) => {
+                signIn();
+                e.preventDefault();
+              }}
               className="border p-2 rounded-xl bg-green_400  "
             >
               {" "}

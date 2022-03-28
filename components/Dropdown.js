@@ -1,9 +1,10 @@
-import { data } from "autoprefixer";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import {  signOut } from "next-auth/react";
 
-const Dropdown = (props) => {
+
+const Dropdown = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
 
@@ -20,9 +21,11 @@ const Dropdown = (props) => {
   const logOut = () => {
     dispatch({
       type: "HİDE_DROPDOWN",
-    });
-    props.logOut();
+    }); 
+    signOut()
   };
+
+ 
 
   return (
     <div id="dropdown ">

@@ -1,28 +1,18 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import db, { auth, provider, storage } from "../firebase";
-import {
-  deleteObject,
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
 import Selection from "./Selection";
 import Show from "./Show";
 import Modal from "./Modal";
-import Try from "./Try";
 import PhotoModal from "./PhotoModal";
 import MediaModal from "./MediaModal";
 
-const HomePage = (props) => {
+const HomePage = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
 
   return (
     <div className="flex w-screen overflow-hidden bg-gray_900 ">
-      {/* <Try /> */}
       {data.showModal && <Modal />}
       {data.photoModal && <PhotoModal />}
       {data.mediaModal && <MediaModal />}
@@ -34,7 +24,7 @@ const HomePage = (props) => {
             : " visible static translate-x-0 "
         }`}
       >
-        <Selection logOut={props.logOut} />
+        <Selection  />
       </div>
 
       <div

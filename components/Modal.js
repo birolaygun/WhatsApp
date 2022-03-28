@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import db, { auth, provider, storage } from "../firebase";
+import db from "../firebase";
 
 const Modal = () => {
   const dispatch = useDispatch();
@@ -25,11 +24,11 @@ const Modal = () => {
       window.alert("Invalid e-mail adress");
     } else {
       if (
-        data.dbConnections.find(
-          (fn) =>
-            fn.sides.includes(data.friendsMail) &&
-            fn.sides.includes(data.user.userMail)
-        )
+        data.dbConnections.filter(
+          (connect) =>
+            connect.sides.map((side) => side.user).includes(data.friendsMail) &&
+            connect.sides.map((side) => side.user).includes(data.user.userMail)
+        ).length !== 0
       ) {
         window.alert("This e-mail adress is already your friens");
       } else if (
@@ -37,7 +36,6 @@ const Modal = () => {
         Object.entries(data.dbConnections).length === data.dbConnectionCount
       ) {
         if (data.dbUsers.find((fn) => fn.userMail === data.friendsMail)) {
-          console.log("1. çalıştı");
           db.collection("data")
             .doc("SNA9FltXA8h6x6xlt1Ml")
             .update({
@@ -57,7 +55,6 @@ const Modal = () => {
               userCount: data.dbUsersCount,
             });
         } else {
-          console.log("2. çalıştı");
           db.collection("data")
             .doc("SNA9FltXA8h6x6xlt1Ml")
             .update({

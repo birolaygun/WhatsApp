@@ -8,13 +8,12 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
-
 const signIn = ({ providers }) => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
+  const router = useRouter();
 
   const { data: session } = useSession();
-  const router = useRouter();
 
   useEffect(() => {
     if (session) {
@@ -26,6 +25,7 @@ const signIn = ({ providers }) => {
           sessionEmail: session?.user.email,
         },
       });
+      router.push("/");
     } else {
       dispatch({
         type: "SET_SESSION",
@@ -33,7 +33,6 @@ const signIn = ({ providers }) => {
       });
     }
   }, [session]);
-  console.log(data);
 
   return (
     <>

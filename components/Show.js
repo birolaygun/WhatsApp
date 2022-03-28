@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Write from "./Write";
 
-const Show = (props) => {
+const Show = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
 

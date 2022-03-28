@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { blueTick } from "./icons";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import db, { auth, provider, storage } from "../firebase";
+import db from "../firebase";
 
 const days = [
   "Sunday",

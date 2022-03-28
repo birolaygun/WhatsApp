@@ -31,8 +31,8 @@ const Messages = (props) => {
     ) {
       timeReact = "Yesterday";
     } else if (
-      new Date().toDateString() > time.toDateString() &&
-      new Date().getTime() - time.getTime() < 7 * 24 * 60 * 60 * 1000
+      new Date().getTime() - time.getTime() <
+      7 * 24 * 60 * 60 * 1000
     ) {
       timeReact = days[time.getDay()];
     } else {
@@ -47,7 +47,7 @@ const Messages = (props) => {
         props.sortedMessages[props.i - 1]?.writer
     ) {
       setClassNm(
-        "bg-green_600 text-iceWhite text-sm w-fit p-2 mt-1 rounded-md float-right block"
+        "bg-green_600 text-iceWhite text-sm p-2 mt-1 rounded-md float-right block"
       );
     } else if (
       props.message.writer === data.user.userMail &&
@@ -55,7 +55,7 @@ const Messages = (props) => {
         props.sortedMessages[props.i - 1]?.writer
     ) {
       setClassNm(
-        "bg-green_600 text-iceWhite text-sm w-fit p-2 mt-7 rounded-md float-right block"
+        "bg-green_600 text-iceWhite text-sm p-2 mt-7 rounded-md float-right block"
       );
     } else if (
       props.message.writer !== data.user.userMail &&
@@ -63,7 +63,7 @@ const Messages = (props) => {
         props.sortedMessages[props.i - 1]?.writer
     ) {
       setClassNm(
-        "bg-gray_500 text-iceWhite text-sm w-fit p-2 mt-1 rounded-md float-left block"
+        "bg-gray_500 text-iceWhite text-sm p-2 mt-1 rounded-md float-left block"
       );
     } else if (
       props.message.writer !== data.user.userMail &&
@@ -71,7 +71,7 @@ const Messages = (props) => {
         props.sortedMessages[props.i - 1]?.writer
     ) {
       setClassNm(
-        "bg-gray_500 text-iceWhite text-sm w-fit p-2 mt-7 rounded-md float-left block"
+        "bg-gray_500 text-iceWhite text-sm p-2 mt-7 rounded-md float-left block"
       );
     }
 
@@ -100,7 +100,7 @@ const Messages = (props) => {
         className={`  flex ${
           props.message.writer === data.user.userMail && " justify-end "
         } 
-    ${hideArrow ? "mx-2" : "mx-7"}`}
+    ${hideArrow ? "mx-2" : "mx-7"} `}
       >
         {props.message.writer !== data.user.userMail && (
           <div
@@ -112,9 +112,9 @@ const Messages = (props) => {
         )}
 
         <div
-          className={`${classNm} maxW ${
+          className={`${classNm}  ${
             props.message.file?.type === "audio" && "w-full max-w-md"
-          }  `}
+          } maxW  `}
         >
           <div className="px-3 break-words  ">
             {" "}
@@ -124,7 +124,6 @@ const Messages = (props) => {
                   <img
                     src={props.message.file.url}
                     alt=""
-                    dowload
                     onClick={() => {
                       dispatch({
                         type: "SHOW_MEDIAMODAL",
@@ -153,7 +152,6 @@ const Messages = (props) => {
                   </div>
                 ) : (
                   <div className="text-center text-sm bg-green_800  p-2 rounded-md shadow-md">
-                    {/* <a className="flex space-x-3" target="_blank" href={props.message.file.url}> */}
                     <a className="flex space-x-3" href={props.message.file.url}>
                       {" "}
                       <span>{file}</span>{" "}

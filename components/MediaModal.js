@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import db, { auth, provider, storage } from "../firebase";
 import { download } from "./icons";
 
 const MediaModal = () => {

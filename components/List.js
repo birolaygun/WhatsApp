@@ -17,8 +17,6 @@ const List = () => {
     return 0;
   }
 
-  // data.dbConnections.filter((connect) =>
-  // connect.sides.some((mpp) => mpp.user === data.user.userMail )
 
   return (
     <div className="  heightCalc scrollbar  hover:scrollbar-thumb-gray_500 scrollbar-thin">
