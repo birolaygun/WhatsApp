@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
-const signIn = ({ providers }) => {
+const SignIn = ({ providers }) => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
   const router = useRouter();
@@ -66,4 +66,4 @@ export async function getServerSideProps() {
     },
   };
 }
-export default signIn;
+export default SignIn;
