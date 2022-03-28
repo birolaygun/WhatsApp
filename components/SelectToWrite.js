@@ -15,6 +15,8 @@ const days = [
 ];
 
 const SelectToWrite = (props) => {
+  console.log(props.senderEMail, data.selectedCon.userMail);
+
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
 
@@ -194,14 +196,16 @@ const SelectToWrite = (props) => {
           >
             {timeReact}
           </div>
-          <div
-            className={` w-5 h-5 bg-green_400 rounded-full flex items-center justify-center text-[10px] ${
-              !props.unReadMessage && "hidden"
-            }`}
-          >
-            {props.senderEMail !== data.selectedCon.userMail &&
-              props.unReadMessage}
-          </div>
+          {props.senderEMail !== data.selectedCon.userMail && (
+            <div
+              className={` w-5 h-5 bg-green_400 rounded-full flex items-center justify-center text-[10px] ${
+                !props.unReadMessage ||
+                (props.senderEMail !== data.selectedCon.userMail && "hidden")
+              }`}
+            >
+              {props.unReadMessage}
+            </div>
+          )}
         </div>
       </div>
     </div>
