@@ -15,8 +15,6 @@ const days = [
 ];
 
 const SelectToWrite = (props) => {
-  console.log(props.senderEMail, data.selectedCon.userMail);
-
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
 
@@ -55,6 +53,7 @@ const SelectToWrite = (props) => {
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
       Object.entries(data.dbConnections).length === data.dbConnectionCount
     ) {
+
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
         .update({
@@ -189,23 +188,20 @@ const SelectToWrite = (props) => {
         <div className="flex items-end justify-center flex-col w-min  ">
           <div
             className={
-              props.unReadMessage
+              props.unReadMessage && props.senderEMail !== data.selectedCon.userMail
                 ? "text-green_400 text-sm "
                 : "text-iceWhite text-opacity-80 text-sm"
             }
           >
             {timeReact}
           </div>
-          {props.senderEMail !== data.selectedCon.userMail && (
-            <div
-              className={` w-5 h-5 bg-green_400 rounded-full flex items-center justify-center text-[10px] ${
-                !props.unReadMessage ||
-                (props.senderEMail !== data.selectedCon.userMail && "hidden")
-              }`}
-            >
-              {props.unReadMessage}
-            </div>
-          )}
+          <div
+            className={` w-5 h-5 bg-green_400 rounded-full flex items-center justify-center text-[10px] ${
+              !props.unReadMessage && props.senderEMail === data.selectedCon.userMail && "hidden"
+            }`}
+          >
+            { props.unReadMessage}
+          </div>
         </div>
       </div>
     </div>

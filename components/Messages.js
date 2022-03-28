@@ -155,6 +155,7 @@ const Messages = (props) => {
                     <a
                       className="flex space-x-3"
                       target="_blank"
+                      rel="noreferrer"
                       href={props.message.file.url}
                     >
                       {" "}
