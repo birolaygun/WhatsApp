@@ -129,7 +129,7 @@ const SelectToWrite = (props) => {
       </div>
 
       <div className="flex-1 flex items-center  justify-between p-3  border-b border-iceWhite border-opacity-20">
-        <div className=" overflow-hidden flex flex-col items-start justify-start ml-2 flex-1">
+        <div className=" overflow-hidden flex flex-col items-start justify-start ml-2 flex-1 h-[50px]">
           <h2 className="text-iceWhite font-bold whitespace-nowrap text-ellipsis ">
             {props.senderName ? props.senderName : props.senderEMail}
           </h2>
