@@ -125,7 +125,11 @@ export default function Home() {
   }, [data.user]);
 
   const makeOffline = () => {
-  
+    if (
+      Object.entries(data.dbUsers).length === data.dbUsersCount &&
+      Object.entries(data.dbConnections).length === data.dbConnectionCount &&
+      data.user.login === true
+    ) {
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
         .update({
@@ -140,31 +144,12 @@ export default function Home() {
           userCount: data.dbUsersCount,
           connectionCount: data.dbConnectionCount,
         });
-    
+    }
   };
 
   useBeforeunload(() => {
     makeOffline();
   });
-
-  useEffect(() => {
-    router.beforePopState(() => {
-      makeOffline();
-    });
-  }, []);
-
-  useEffect(() => {
-    router.beforePopState(({ as }) => {
-      if (as !== router.asPath) {
-        makeOffline();
-      }
-      return true;
-    });
-
-    return () => {
-      router.beforePopState(() => true);
-    };
-  }, [router]);
 
   return (
     <div>

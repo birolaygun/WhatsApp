@@ -6,9 +6,7 @@ import { download } from "./icons";
 const MediaModal = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
-  useEffect(() => {
-    console.log(data.MediaModal);
-  }, [data]);
+
   return (
     <div
       className="absolute top-0 left-0 w-screen h-screen z-20

@@ -36,11 +36,7 @@ const List = () => {
             (fl) => fl.writer !== data.user.userMail && fl.seen === false
           ).length;
 
-          console.log(
-            connect.messages.filter(
-              (fl) => fl.writer !== data.user.userMail && fl.seen === false
-            )
-          );
+
 
           return (
           
