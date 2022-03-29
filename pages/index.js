@@ -124,11 +124,11 @@ export default function Home() {
     }
   }, [data.user]);
 
-  const makeOffline = () => {
+  const makeOffline = (e) => {
+    e.preventDefault();
     if (
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
-      Object.entries(data.dbConnections).length === data.dbConnectionCount &&
-      data.user.login === true
+      Object.entries(data.dbConnections).length === data.dbConnectionCount
     ) {
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
@@ -147,7 +147,8 @@ export default function Home() {
     }
   };
 
-  useBeforeunload(() => {
+  useBeforeunload((e) => {
+    e.preventDefault();
     makeOffline();
   });
 
@@ -157,7 +158,7 @@ export default function Home() {
         <title>WhatsApp</title>
         <meta name="description" content="It's an education App" />
       </Head>
-     
+
       <main className="">
         {data.login ? (
           <div className="flex flex-col items-center">
