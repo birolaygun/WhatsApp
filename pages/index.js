@@ -156,9 +156,20 @@ export default function Home() {
     });
   }, []);
 
-  router.beforePopState(() => {
-    makeOffline();
-  });
+  useEffect(() => {
+    router.beforePopState(({ as }) => {
+        if (as !== router.asPath) {
+          makeOffline();
+
+        }
+        return true;
+    });
+
+    return () => {
+        router.beforePopState(() => true);
+    };
+}, [router]); 
+
 
   return (
     <div>
