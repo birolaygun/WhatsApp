@@ -24,11 +24,11 @@ const HomePage = () => {
             : " visible static translate-x-0 "
         }`}
       >
-        <Selection  />
+        <Selection />
       </div>
 
       <div
-        className={` w-screen md:w-3/5 bg-gray_900 min-h-screen transition-transform ${
+        className={` w-screen md:w-3/5 bg-gray_900  transition-transform min-h-screen ${
           data.selectedCon
             ? "visible static translate-x-0 "
             : " -translate-x-full w-0 invisible absolute md:visible md:static md:translate-x-0"
