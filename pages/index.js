@@ -147,6 +147,11 @@ export default function Home() {
     }
   };
 
+  useBeforeunload((event) => {
+    makeOffline();
+    event.preventDefault();
+  });
+  
   useBeforeunload(() => {
     makeOffline();
   });
