@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import {  signOut } from "next-auth/react";
-
+import { signOut } from "next-auth/react";
 
 const Dropdown = () => {
   const dispatch = useDispatch();
@@ -21,11 +20,28 @@ const Dropdown = () => {
   const logOut = () => {
     dispatch({
       type: "HİDE_DROPDOWN",
-    }); 
-    signOut()
+    });
+    signOut();
+    if (
+      Object.entries(data.dbUsers).length === data.dbUsersCount &&
+      Object.entries(data.dbConnections).length === data.dbConnectionCount
+    ) {
+      db.collection("data")
+        .doc("SNA9FltXA8h6x6xlt1Ml")
+        .update({
+          connection: data.dbConnections,
+          users: data.dbUsers.map((user) => {
+            if (user.userMail === data.user.userMail) {
+              return { ...user, login: false, lastSeen: String(new Date()) };
+            } else {
+              return user;
+            }
+          }),
+          userCount: data.dbUsersCount,
+          connectionCount: data.dbConnectionCount,
+        });
+    }
   };
-
- 
 
   return (
     <div id="dropdown ">

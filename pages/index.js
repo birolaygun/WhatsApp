@@ -125,7 +125,6 @@ export default function Home() {
   }, [data.user]);
 
   const makeOffline = (e) => {
-    e.preventDefault();
     if (
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
       Object.entries(data.dbConnections).length === data.dbConnectionCount
@@ -148,7 +147,6 @@ export default function Home() {
   };
 
   useBeforeunload((e) => {
-    e.preventDefault();
     makeOffline();
   });
 
@@ -182,7 +180,6 @@ export default function Home() {
             <button
               onClick={(e) => {
                 signIn();
-                e.preventDefault();
               }}
               className="border p-2 rounded-xl bg-green_400  "
             >
