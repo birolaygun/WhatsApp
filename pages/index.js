@@ -156,6 +156,10 @@ export default function Home() {
     });
   }, []);
 
+  router.beforePopState(() => {
+    makeOffline();
+  });
+
   return (
     <div>
       <Head>
