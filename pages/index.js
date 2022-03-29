@@ -124,7 +124,7 @@ export default function Home() {
     }
   }, [data.user]);
 
-  const makeOffline = (e) => {
+  const makeOffline = () => {
     if (
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
       Object.entries(data.dbConnections).length === data.dbConnectionCount
@@ -146,7 +146,7 @@ export default function Home() {
     }
   };
 
-  useBeforeunload((e) => {
+  useBeforeunload(() => {
     makeOffline();
   });
 
