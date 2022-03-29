@@ -125,10 +125,7 @@ export default function Home() {
   }, [data.user]);
 
   const makeOffline = () => {
-    if (
-      Object.entries(data.dbUsers).length === data.dbUsersCount &&
-      Object.entries(data.dbConnections).length === data.dbConnectionCount
-    ) {
+  
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
         .update({
@@ -143,7 +140,7 @@ export default function Home() {
           userCount: data.dbUsersCount,
           connectionCount: data.dbConnectionCount,
         });
-    }
+    
   };
 
   useBeforeunload(() => {
@@ -158,52 +155,56 @@ export default function Home() {
 
   useEffect(() => {
     router.beforePopState(({ as }) => {
-        if (as !== router.asPath) {
-          makeOffline();
-
-        }
-        return true;
+      if (as !== router.asPath) {
+        makeOffline();
+      }
+      return true;
     });
 
     return () => {
-        router.beforePopState(() => true);
+      router.beforePopState(() => true);
     };
-}, [router]); 
-
+  }, [router]);
 
   return (
     <div>
-      <Head>
-        <title>WhatsApp</title>
-        <meta name="description" content="It's an education App" />
-      </Head>
+      {router.isFallback ? (
+        <div>Loading...</div>
+      ) : (
+        <div>
+          <Head>
+            <title>WhatsApp</title>
+            <meta name="description" content="It's an education App" />
+          </Head>
 
-      <main className="">
-        {data.login ? (
-          <div className="flex flex-col items-center">
-            <HomePage />
-          </div>
-        ) : (
-          <div className="bg-gray_500 w-full h-full absolute flex items-center justify-center flex-col">
-            <div className="text-iceWhite bg-green_300 rounded-lg rounded-tr-3xl rounded-bl-3xl w-32 h-32 p-4 flex items-center justify-center">
-              {WhatsAppIcon}
-            </div>
-            <p className="m-5 text-iceWhite max-w-md text-center">
-              This is not real WhatsApp. It is Birol Ayguns edication project.
-              Please LOGIN and start messaging..
-            </p>
-            <button
-              onClick={(e) => {
-                signIn();
-              }}
-              className="border p-2 rounded-xl bg-green_400  "
-            >
-              {" "}
-              Login To Contiue{" "}
-            </button>
-          </div>
-        )}
-      </main>
+          <main className="">
+            {data.login ? (
+              <div className="flex flex-col items-center">
+                <HomePage />
+              </div>
+            ) : (
+              <div className="bg-gray_500 w-full h-full absolute flex items-center justify-center flex-col">
+                <div className="text-iceWhite bg-green_300 rounded-lg rounded-tr-3xl rounded-bl-3xl w-32 h-32 p-4 flex items-center justify-center">
+                  {WhatsAppIcon}
+                </div>
+                <p className="m-5 text-iceWhite max-w-md text-center">
+                  This is not real WhatsApp. It is Birol Ayguns edication
+                  project. Please LOGIN and start messaging..
+                </p>
+                <button
+                  onClick={(e) => {
+                    signIn();
+                  }}
+                  className="border p-2 rounded-xl bg-green_400  "
+                >
+                  {" "}
+                  Login To Contiue{" "}
+                </button>
+              </div>
+            )}
+          </main>
+        </div>
+      )}
     </div>
   );
 }
