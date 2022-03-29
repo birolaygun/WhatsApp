@@ -152,6 +152,12 @@ export default function Home() {
     makeOffline();
   });
 
+  useEffect(() => {
+    router.beforePopState(() => {
+      makeOffline();
+    });
+  }, []);
+
   return (
     <div>
       <Head>
