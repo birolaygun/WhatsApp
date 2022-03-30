@@ -35,7 +35,7 @@ const Nav = () => {
 
   return (
     <div>
-      <div className="px-3 pt-3 bg-gray_500 text-iceWhite space-y-4 border-b  border-iceWhite border-opacity-20 h-[87px] md:hidden">
+      <div className="px-3 pt-3 bg-gray_500 text-iceWhite border-b  space-y-4 border-iceWhite border-opacity-20 h-[87px] md:hidden">
         <div className="flex items-center justify-between">
           <div className="font-bold text-lg">WhatsApp</div>
           <div className="flex items-center space-x-5 font-bold">
