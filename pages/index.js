@@ -54,7 +54,7 @@ export default function Home() {
       );
     });
     }
-  }, []);
+  }, [session]);
 
   useEffect(() => {
     if (list[0]?.data?.connection) {
