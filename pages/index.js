@@ -19,7 +19,6 @@ export default function Home() {
   const router = useRouter();
   // db always reflesh
 
-  const [user, setUser] = useState(null);
   const [list, setList] = useState({});
   const [dbUsers, setDbUsers] = useState([]);
   const [dbConnections, setDbConnections] = useState([]);
@@ -27,13 +26,34 @@ export default function Home() {
   const [dbConnectionCount, setDbConnectionCount] = useState();
 
   useEffect(() => {
-    db.collection("data").onSnapshot((ss) => {
+    if (session) {
+      dispatch({
+        type: "SET_SESSION",
+        payload: {
+          sessionName: session?.user.name,
+          sessionImage: session?.user.image,
+          sessionEmail: session?.user.email,
+        },
+      });
+      router.push("/");
+    } else {
+      dispatch({
+        type: "SET_SESSION",
+        payload: {},
+      });
+    }
+  }, [session]);
+
+  useEffect(() => {
+    if(session){
+          db.collection("data").onSnapshot((ss) => {
       setList(
         ss.docs.map((person) => {
           return { id: person.id, data: person.data() };
         })
       );
     });
+    }
   }, []);
 
   useEffect(() => {
@@ -157,24 +177,7 @@ export default function Home() {
   //   makeOffline();
   // });
 
-  useEffect(() => {
-    if (session) {
-      dispatch({
-        type: "SET_SESSION",
-        payload: {
-          sessionName: session?.user.name,
-          sessionImage: session?.user.image,
-          sessionEmail: session?.user.email,
-        },
-      });
-      router.push("/");
-    } else {
-      dispatch({
-        type: "SET_SESSION",
-        payload: {},
-      });
-    }
-  }, [session]);
+
 
   return (
     <div>

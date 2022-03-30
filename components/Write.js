@@ -89,51 +89,58 @@ const Write = () => {
   }, [myMessage]);
 
   const sendAMessage = () => {
-    setLoading(true);
-    db.collection("data")
-      .doc("SNA9FltXA8h6x6xlt1Ml")
-      .update({
-        connection: data.dbConnections.map((connect) => {
-          if (
-            connect.sides
-              .map((side) => side.user)
-              .includes(data.selectedCon.userMail) &&
-            connect.sides.map((side) => side.user).includes(data.user.userMail)
-          ) {
-            return {
-              ...connect,
-              sides: connect.sides.map((mp) => {
-                if (mp.user === data.user.userMail) {
-                  return { ...mp, typing: false };
-                } else {
-                  return mp;
-                }
-              }),
-              messages: [
-                ...connect.messages,
-                {
-                  message: myMessage,
-                  seen: false,
-                  time: String(new Date()),
-                  writer: data.user.userMail,
-                  file: false,
-                },
-              ],
-            };
-          } else {
-            return connect;
-          }
-        }),
+    if (
+      Object.entries(data.dbUsers).length === data.dbUsersCount &&
+      Object.entries(data.dbConnections).length === data.dbConnectionCount
+    ) {
+      setLoading(true);
+      db.collection("data")
+        .doc("SNA9FltXA8h6x6xlt1Ml")
+        .update({
+          connection: data.dbConnections.map((connect) => {
+            if (
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.selectedCon.userMail) &&
+              connect.sides
+                .map((side) => side.user)
+                .includes(data.user.userMail)
+            ) {
+              return {
+                ...connect,
+                sides: connect.sides.map((mp) => {
+                  if (mp.user === data.user.userMail) {
+                    return { ...mp, typing: false };
+                  } else {
+                    return mp;
+                  }
+                }),
+                messages: [
+                  ...connect.messages,
+                  {
+                    message: myMessage,
+                    seen: false,
+                    time: String(new Date()),
+                    writer: data.user.userMail,
+                    file: false,
+                  },
+                ],
+              };
+            } else {
+              return connect;
+            }
+          }),
 
-        connectionCount: data.dbConnectionCount,
-        users: data.dbUsers,
-        userCount: data.dbUsersCount,
-      })
-      .then(() => {
-        setMyMessage("");
-        setLoading(false);
-        document.getElementById("textarea").style.height = "40px";
-      });
+          connectionCount: data.dbConnectionCount,
+          users: data.dbUsers,
+          userCount: data.dbUsersCount,
+        })
+        .then(() => {
+          setMyMessage("");
+          setLoading(false);
+          document.getElementById("textarea").style.height = "40px";
+        });
+    }
   };
 
   return (

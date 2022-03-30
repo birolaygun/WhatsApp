@@ -39,57 +39,63 @@ const PhotoModal = () => {
         (err) => console.log(err),
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            db.collection("data")
-              .doc("SNA9FltXA8h6x6xlt1Ml")
-              .update({
-                connection: data.dbConnections.map((connect) => {
-                  if (
-                    connect.sides
-                      .map((side) => side.user)
-                      .includes(data.selectedCon.userMail) &&
-                    connect.sides
-                      .map((side) => side.user)
-                      .includes(data.user.userMail)
-                  ) {
-                    return {
-                      ...connect,
-                      sides: connect.sides.map((mp) => {
-                        if (mp.user === data.user.userMail) {
-                          return { ...mp, typing: false };
-                        } else {
-                          return mp;
-                        }
-                      }),
-                      messages: [
-                        ...connect.messages,
-                        {
-                          message: message,
-                          seen: false,
-                          time: String(new Date()),
-                          writer: data.user.userMail,
-                          file: {
-                            url: url,
-                            type: String(file["type"]).split("/")[0],
-                            name: file.name,
+            if (
+              Object.entries(data.dbUsers).length === data.dbUsersCount &&
+              Object.entries(data.dbConnections).length ===
+                data.dbConnectionCount
+            ) {
+              db.collection("data")
+                .doc("SNA9FltXA8h6x6xlt1Ml")
+                .update({
+                  connection: data.dbConnections.map((connect) => {
+                    if (
+                      connect.sides
+                        .map((side) => side.user)
+                        .includes(data.selectedCon.userMail) &&
+                      connect.sides
+                        .map((side) => side.user)
+                        .includes(data.user.userMail)
+                    ) {
+                      return {
+                        ...connect,
+                        sides: connect.sides.map((mp) => {
+                          if (mp.user === data.user.userMail) {
+                            return { ...mp, typing: false };
+                          } else {
+                            return mp;
+                          }
+                        }),
+                        messages: [
+                          ...connect.messages,
+                          {
+                            message: message,
+                            seen: false,
+                            time: String(new Date()),
+                            writer: data.user.userMail,
+                            file: {
+                              url: url,
+                              type: String(file["type"]).split("/")[0],
+                              name: file.name,
+                            },
                           },
-                        },
-                      ],
-                    };
-                  } else {
-                    return connect;
-                  }
-                }),
+                        ],
+                      };
+                    } else {
+                      return connect;
+                    }
+                  }),
 
-                connectionCount: data.dbConnectionCount,
-                users: data.dbUsers,
-                userCount: data.dbUsersCount,
-              })
+                  connectionCount: data.dbConnectionCount,
+                  users: data.dbUsers,
+                  userCount: data.dbUsersCount,
+                })
 
-              .then(() => {
-                dispatch({
-                  type: "HİDE_PHOTOMODAL",
+                .then(() => {
+                  dispatch({
+                    type: "HİDE_PHOTOMODAL",
+                  });
                 });
-              });
+            }
           });
         }
       );
