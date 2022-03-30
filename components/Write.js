@@ -53,7 +53,11 @@ const Write = () => {
           users: data.dbUsers,
           userCount: data.dbUsersCount,
         });
-    } else {
+    } else if (
+      !myMessage &&
+      Object.entries(data.dbUsers).length === data.dbUsersCount &&
+      Object.entries(data.dbConnections).length === data.dbConnectionCount
+    ) {
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
         .update({

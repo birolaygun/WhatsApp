@@ -35,7 +35,7 @@ export default function Home() {
           sessionEmail: session?.user.email,
         },
       });
-      router.push("/");
+      // router.push("/");
     } else {
       dispatch({
         type: "SET_SESSION",
