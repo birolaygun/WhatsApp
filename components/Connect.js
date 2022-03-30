@@ -88,11 +88,11 @@ const Connect = () => {
     )[0].messages.length,
   ]);
 
-  if (end) {
+  useEffect(() => {
     setTimeout(() => {
       end.scrollIntoView();
     }, 5);
-  }
+  }, []);
 
   return (
     <div
@@ -101,7 +101,6 @@ const Connect = () => {
     >
       <div className="py-2">
         {" "}
-
         {sortedMessages.length !== 0 ? (
           sortedMessages.map((message, i) => {
             return (
