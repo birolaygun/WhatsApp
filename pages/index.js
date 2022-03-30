@@ -73,14 +73,14 @@ export default function Home() {
     }
   }, [list]);
 
-  useEffect(() => {
-    dispatch({
-      type: "LOGIN",
-      payload: data.dbUsers.find(
-        (fn) => fn.userMail === data.session.sessionEmail
-      ),
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "LOGIN",
+  //     payload: data.dbUsers.find(
+  //       (fn) => fn.userMail === data.session.sessionEmail
+  //     ),
+  //   });
+  // }, []);
 
   useEffect(() => {
     if (dbUsers && dbConnections && dbUserCount && dbConnectionCount)
@@ -92,7 +92,6 @@ export default function Home() {
 
   useEffect(() => {
     if (data.session && data.dbUsers.length > 0) {
-
       if (
         data.dbUsers.find((fn) => fn.userMail === data.session.sessionEmail)
       ) {
@@ -105,7 +104,9 @@ export default function Home() {
       } else {
         if (
           Object.entries(data.dbUsers).length === data.dbUsersCount &&
-          Object.entries(data.dbConnections).length === data.dbConnectionCount && data
+          Object.entries(data.dbConnections).length ===
+            data.dbConnectionCount &&
+          data
         ) {
           db.collection("data")
             .doc("SNA9FltXA8h6x6xlt1Ml")
@@ -136,7 +137,8 @@ export default function Home() {
     if (
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
       Object.entries(data.dbConnections).length === data.dbConnectionCount &&
-      data.user.login === false && data
+      data.user.login === false &&
+      data
     ) {
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
@@ -159,7 +161,8 @@ export default function Home() {
     if (
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
       Object.entries(data.dbConnections).length === data.dbConnectionCount &&
-      data.user.login === true && data
+      data.user.login === true &&
+      data
     ) {
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
@@ -190,6 +193,10 @@ export default function Home() {
     });
   }, []);
 
+  useEffect(() => {
+console.log(data);
+  }, [data]);
+
   return (
     <div>
       <Head>
@@ -198,7 +205,7 @@ export default function Home() {
       </Head>
 
       <main className="">
-        { session ? (
+        {session && data.user ? (
           <div className="flex  items-center flex-col">
             <HomePage />
           </div>
@@ -222,6 +229,7 @@ export default function Home() {
             </button>
           </div>
         )}
+        {session && !data.user && <div>loading...</div>}
       </main>
     </div>
   );
