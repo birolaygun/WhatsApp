@@ -44,14 +44,14 @@ const List = () => {
               key={i}
               senderEMail={oppositeUser?.userMail}
               senderName={
-                oppositeUser.profileName
-                  ? oppositeUser.profileName
-                  : oppositeUser.authName
+                oppositeUser?.profileName
+                  ? oppositeUser?.profileName
+                  : oppositeUser?.authName
               }
               profilePhoto={
-                oppositeUser.profilePhoto
-                  ? oppositeUser.profilePhoto
-                  : oppositeUser.authPhoto
+                oppositeUser?.profilePhoto
+                  ? oppositeUser?.profilePhoto
+                  : oppositeUser?.authPhoto
               }
               lastMessage={lastMessage}
               unReadMessage={unreadMessageCount}

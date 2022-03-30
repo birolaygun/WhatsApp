@@ -108,7 +108,26 @@ export default function Home() {
             data.dbConnectionCount &&
           data.session.sessionEmail
         ) {
-         console.log("sssd");
+          db.collection("data")
+            .doc("SNA9FltXA8h6x6xlt1Ml")
+            .update({
+              connection: data.dbConnections,
+              users: [
+                ...data.dbUsers,
+                {
+                  authName: data.session.sessionName,
+                  authPhoto: data.session.sessionImage,
+
+                  lastSeen: "",
+                  login: true,
+                  profileName: "",
+                  profilePhoto: "",
+                  userMail: data.session.sessionEmail,
+                },
+              ],
+              userCount: data.dbUsersCount + 1,
+              connectionCount: data.dbConnectionCount,
+            });
         }
       }
     }
