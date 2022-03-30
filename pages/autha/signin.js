@@ -37,7 +37,7 @@ const SignIn = ({ providers }) => {
   return (
     <>
       <div
-        className=" bg-gray_500 flex items-center justify-center flex-col 
+        className=" bg-gray_500 flex items-center justify-center flex-col
       h-screen text-center py-2 px-14 "
       >
         {Object.values(providers).map((provider) => (
@@ -67,3 +67,11 @@ export async function getServerSideProps() {
   };
 }
 export default SignIn;
+
+// import React from "react";
+
+// const signIn = () => {
+//   return <div>signIn</div>;
+// };
+
+// export default signIn;
