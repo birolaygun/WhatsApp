@@ -29,10 +29,6 @@ const Nav = () => {
     );
   }, [data.dbConnections]);
 
-  console.log(
-    data.user.profilePhoto ? data.user.profilePhoto : data.user.authPhoto
-  );
-
   return (
     <div>
       <div className="px-3 pt-3 bg-gray_500 text-iceWhite border-b  space-y-4 border-iceWhite border-opacity-20 h-[87px] md:hidden">

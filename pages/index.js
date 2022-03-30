@@ -195,9 +195,7 @@ export default function Home() {
     });
   }, []);
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
+
 
   return (
     <div>
