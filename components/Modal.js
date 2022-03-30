@@ -33,7 +33,7 @@ const Modal = () => {
         window.alert("This e-mail adress is already your friens");
       } else if (
         Object.entries(data.dbUsers).length === data.dbUsersCount &&
-        Object.entries(data.dbConnections).length === data.dbConnectionCount
+        Object.entries(data.dbConnections).length === data.dbConnectionCount && data
       ) {
         if (data.dbUsers.find((fn) => fn.userMail === data.friendsMail)) {
           db.collection("data")

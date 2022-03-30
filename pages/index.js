@@ -65,10 +65,10 @@ export default function Home() {
       setDbUsers(list[0]?.data?.users);
     }
 
-    if (list[0]?.data?.users) {
+    if (list[0]?.data?.userCount) {
       setDbUserCount(list[0]?.data?.userCount);
     }
-    if (list[0]?.data?.users) {
+    if (list[0]?.data?.connectionCount) {
       setDbConnectionCount(list[0]?.data?.connectionCount);
     }
   }, [list]);
@@ -83,7 +83,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (dbUsers && dbConnections)
+    if (dbUsers && dbConnections && dbUserCount && dbConnectionCount)
       dispatch({
         type: "REFLESH_DATAS",
         payload: [dbUsers, dbConnections, dbUserCount, dbConnectionCount],
@@ -92,6 +92,7 @@ export default function Home() {
 
   useEffect(() => {
     if (data.session && data.dbUsers.length > 0) {
+
       if (
         data.dbUsers.find((fn) => fn.userMail === data.session.sessionEmail)
       ) {
@@ -104,7 +105,7 @@ export default function Home() {
       } else {
         if (
           Object.entries(data.dbUsers).length === data.dbUsersCount &&
-          Object.entries(data.dbConnections).length === data.dbConnectionCount
+          Object.entries(data.dbConnections).length === data.dbConnectionCount && data
         ) {
           db.collection("data")
             .doc("SNA9FltXA8h6x6xlt1Ml")
@@ -135,7 +136,7 @@ export default function Home() {
     if (
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
       Object.entries(data.dbConnections).length === data.dbConnectionCount &&
-      data.user.login === false
+      data.user.login === false && data
     ) {
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
@@ -158,7 +159,7 @@ export default function Home() {
     if (
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
       Object.entries(data.dbConnections).length === data.dbConnectionCount &&
-      data.user.login === true
+      data.user.login === true && data
     ) {
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
@@ -189,7 +190,6 @@ export default function Home() {
     });
   }, []);
 
-
   return (
     <div>
       <Head>
@@ -198,9 +198,9 @@ export default function Home() {
       </Head>
 
       <main className="">
-        {data.login && session ? (
-          <div className="flex flex-col items-center">
-            <HomePage  />
+        { session ? (
+          <div className="flex  items-center flex-col">
+            <HomePage />
           </div>
         ) : (
           <div className="bg-gray_500 w-full h-full absolute flex items-center justify-center flex-col">

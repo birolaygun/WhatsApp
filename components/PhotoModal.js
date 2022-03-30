@@ -42,7 +42,7 @@ const PhotoModal = () => {
             if (
               Object.entries(data.dbUsers).length === data.dbUsersCount &&
               Object.entries(data.dbConnections).length ===
-                data.dbConnectionCount
+                data.dbConnectionCount && data
             ) {
               db.collection("data")
                 .doc("SNA9FltXA8h6x6xlt1Ml")
