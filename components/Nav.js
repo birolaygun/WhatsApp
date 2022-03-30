@@ -48,7 +48,7 @@ const Nav = () => {
               {plus}
             </div>
             <div className="absolute  right-4 mt-3">
-              <Dropdown />
+              <Dropdown  />
             </div>
           </div>
         </div>

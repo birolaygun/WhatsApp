@@ -187,7 +187,9 @@ export default function Home() {
     router.beforePopState((event) => {
       makeOffline();
     });
+    console.log(session);
   }, []);
+
 
   return (
     <div>
@@ -197,9 +199,9 @@ export default function Home() {
       </Head>
 
       <main className="">
-        {data.login ? (
+        {data.login && session ? (
           <div className="flex flex-col items-center">
-            <HomePage />
+            <HomePage  />
           </div>
         ) : (
           <div className="bg-gray_500 w-full h-full absolute flex items-center justify-center flex-col">

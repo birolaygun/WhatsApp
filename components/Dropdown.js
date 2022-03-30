@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { signOut } from "next-auth/react";
+import db from "../firebase";
 
 const Dropdown = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,9 @@ const Dropdown = () => {
   const logOut = () => {
     dispatch({
       type: "HİDE_DROPDOWN",
+    });
+    dispatch({
+      type: "LOGOUT",
     });
     signOut();
     if (

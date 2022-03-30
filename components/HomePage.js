@@ -24,7 +24,8 @@ const HomePage = () => {
             : " visible static translate-x-0 "
         }`}
       >
-        <Selection />
+        <Selection   
+ />
       </div>
 
       <div

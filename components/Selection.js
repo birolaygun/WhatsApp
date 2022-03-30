@@ -8,7 +8,7 @@ const Selection = () => {
   return (
     <div className="float-none">
       <div className="sticky top-0">
-        <Nav />
+        <Nav  />
       </div>
       <List />
     </div>
