@@ -73,14 +73,14 @@ export default function Home() {
     }
   }, [list]);
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "LOGIN",
-  //     payload: data.dbUsers.find(
-  //       (fn) => fn.userMail === data.session.sessionEmail
-  //     ),
-  //   });
-  // }, []);
+  useEffect(() => {
+    dispatch({
+      type: "LOGIN",
+      payload: data.dbUsers.find(
+        (fn) => fn.userMail === data.session.sessionEmail
+      ),
+    });
+  }, []);
 
   useEffect(() => {
     if (dbUsers && dbConnections && dbUserCount && dbConnectionCount)
@@ -106,7 +106,7 @@ export default function Home() {
           Object.entries(data.dbUsers).length === data.dbUsersCount &&
           Object.entries(data.dbConnections).length ===
             data.dbConnectionCount &&
-          data.session.sessionName
+          data.session.sessionEmail
         ) {
           db.collection("data")
             .doc("SNA9FltXA8h6x6xlt1Ml")
@@ -193,10 +193,6 @@ export default function Home() {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   return (
     <div>
       <Head>
@@ -205,7 +201,7 @@ export default function Home() {
       </Head>
 
       <main className="">
-        {session && data.user ? (
+        {session ? (
           <div className="flex  items-center flex-col">
             <HomePage />
           </div>
@@ -229,7 +225,6 @@ export default function Home() {
             </button>
           </div>
         )}
-        {session && !data.user && <div>loading...</div>}
       </main>
     </div>
   );
