@@ -16,8 +16,8 @@ const Nav = () => {
         data.dbConnections
           ?.filter((fl) => {
             return (
-              fl.sides[0].user === data.user.userMail ||
-              fl.sides[1].user === data.user.userMail
+              fl.sides[0]?.user === data.user.userMail ||
+              fl.sides[1]?.user === data.user.userMail
             );
           })
           .filter((fin) => {

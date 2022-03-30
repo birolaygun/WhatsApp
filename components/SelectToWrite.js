@@ -123,7 +123,7 @@ const SelectToWrite = (props) => {
           />
         ) : (
           <div className="w-12 h-12 rounded-full bg-blue_100 flex items-center justify-center text-2xl font-semibold">
-            {props.senderEMail[0].toUpperCase()}
+            {props.senderEMail[0]?.toUpperCase()}
           </div>
         )}
       </div>

@@ -74,7 +74,7 @@ const PhotoModal = () => {
                             writer: data.user.userMail,
                             file: {
                               url: url,
-                              type: String(file["type"]).split("/")[0],
+                              type: String(file["type"])?.split("/")[0],
                               name: file.name,
                             },
                           },
@@ -107,10 +107,10 @@ const PhotoModal = () => {
   const addImageToPost = (e) => {
     const reader = new FileReader();
 
-    if (e.target.files[0]) {
-      setFile(e.target.files[0]);
+    if (e.target?.files[0]) {
+      setFile(e.target?.files[0]);
 
-      reader.readAsDataURL(e.target.files[0]);
+      reader.readAsDataURL(e.target?.files[0]);
     }
 
     reader.onload = (readerEvent) => {
@@ -136,7 +136,7 @@ const PhotoModal = () => {
               }}
               className="cursor-pointer "
             >
-              {String(file["type"]).split("/")[0] === "image" ? (
+              {String(file["type"])?.split("/")[0] === "image" ? (
                 <img
                   src={showFile}
                   alt=""
@@ -146,9 +146,9 @@ const PhotoModal = () => {
                   }}
                   className="w-full object-contain cursor-pointer max-h-96"
                 />
-              ) : String(file["type"]).split("/")[0] === "video" ? (
+              ) : String(file["type"])?.split("/")[0] === "video" ? (
                 <video controls autoPlay muted src={showFile}></video>
-              ) : String(file["type"]).split("/")[0] === "audio" ? (
+              ) : String(file["type"])?.split("/")[0] === "audio" ? (
                 <div className="flex flex-col items-center">
                   <div className=" mx-auto flex items-center justify-center h-25 w-25 bg-red-100 rounded-full cursor-pointer mb-3">
                     {filePlus}

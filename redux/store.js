@@ -28,10 +28,10 @@ const data = function reducer(state = STATE, action) {
       if (action.payload) {
         return {
           ...state,
-          dbUsers: action.payload[0],
-          dbConnections: action.payload[1],
-          dbConnectionCount: action.payload[3],
-          dbUsersCount: action.payload[2],
+          dbUsers: action?.payload[0],
+          dbConnections: action?.payload[1],
+          dbConnectionCount: action?.payload[3],
+          dbUsersCount: action?.payload[2],
         };
       }
     }
