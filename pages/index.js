@@ -12,7 +12,6 @@ import { WhatsAppIcon } from "../components/icons";
 import { useBeforeunload } from "react-beforeunload";
 
 export default function Home() {
-
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
   const { data: session } = useSession();
@@ -26,20 +25,17 @@ export default function Home() {
   const [dbUserCount, setDbUserCount] = useState();
   const [dbConnectionCount, setDbConnectionCount] = useState();
 
-
-
   useEffect(() => {
-      db.collection("data").onSnapshot((ss) => {
-        setList(
-          ss.docs.map((person) => {
-            return { id: person.id, data: person.data() };
-          })
-        );
-      });
-  
+    db.collection("data").onSnapshot((ss) => {
+      setList(
+        ss.docs.map((person) => {
+          return { id: person.id, data: person.data() };
+        })
+      );
+    });
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     if (list[0]?.data?.connection) {
       setDbConnections(list[0]?.data?.connection);
     }
@@ -64,7 +60,6 @@ export default function Home() {
       });
   }, [dbUsers, dbConnections, dbUserCount, dbConnectionCount]);
 
-
   useEffect(() => {
     if (session) {
       dispatch({
@@ -83,7 +78,6 @@ export default function Home() {
     }
   }, [session]);
 
-
   // useEffect(() => {
   //   dispatch({
   //     type: "LOGIN",
@@ -92,7 +86,6 @@ export default function Home() {
   //     ),
   //   });
   // }, []);
-
 
   useEffect(() => {
     if (data.session && data.dbUsers.length > 0) {
@@ -110,7 +103,7 @@ export default function Home() {
           Object.entries(data.dbUsers).length === data.dbUsersCount &&
           Object.entries(data.dbConnections).length ===
             data.dbConnectionCount &&
-            data.session.sessionName
+          data
         ) {
           db.collection("data")
             .doc("SNA9FltXA8h6x6xlt1Ml")
@@ -129,8 +122,8 @@ export default function Home() {
                   userMail: data.session.sessionEmail,
                 },
               ],
-              userCount: dbUserCount + 1,
-              connectionCount: data.connectionCount,
+              userCount: data.dbUsersCount + 1,
+              connectionCount: data.dbConnectionCount,
             });
         }
       }
@@ -198,7 +191,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-console.log(data);
+    console.log(data);
   }, [data]);
 
   return (
