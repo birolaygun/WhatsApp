@@ -51,7 +51,8 @@ const SelectToWrite = (props) => {
   const makeSeen = () => {
     if (
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
-      Object.entries(data.dbConnections).length === data.dbConnectionCount && data
+      Object.entries(data.dbConnections).length === data.dbConnectionCount &&
+      data
     ) {
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
@@ -123,7 +124,7 @@ const SelectToWrite = (props) => {
           />
         ) : (
           <div className="w-12 h-12 rounded-full bg-blue_100 flex items-center justify-center text-2xl font-semibold">
-            {props.senderEMail[0]?.toUpperCase()}
+            {String(props.senderEMail)[0].toUpperCase()}
           </div>
         )}
       </div>

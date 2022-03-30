@@ -28,10 +28,10 @@ const data = function reducer(state = STATE, action) {
       if (action.payload) {
         return {
           ...state,
-          dbUsers: action?.payload[0],
-          dbConnections: action?.payload[1],
-          dbConnectionCount: action?.payload[3],
-          dbUsersCount: action?.payload[2],
+          dbUsers: action.payload[0],
+          dbConnections: action.payload[1],
+          dbConnectionCount: action.payload[3],
+          dbUsersCount: action.payload[2],
         };
       }
     }
@@ -129,29 +129,6 @@ const data = function reducer(state = STATE, action) {
       return {
         ...state,
         showDropDown: false,
-      };
-    }
-    case "ADD_FRİEND": {
-      return {
-        ...state,
-        connects: [
-          ...state.connects,
-          {
-            senderEMail: action.payload,
-            senderName: "buu",
-            profilePhoto:
-              "https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-            lastMessage: "buuuu :)",
-            lastMessageTime: new Date(2022, 2, 15, 10, 30, 30, 0),
-            unReadMessage: 4,
-            seen: true,
-            userSend: false,
-            group: true,
-            sender: "gruptan gönderdi",
-            lastSeen: new Date(2022, 2, 13, 13, 50, 40, 0),
-            messages: [],
-          },
-        ],
       };
     }
 

@@ -35,7 +35,6 @@ export default function Home() {
           sessionEmail: session?.user.email,
         },
       });
-      // router.push("/");
     } else {
       dispatch({
         type: "SET_SESSION",
@@ -106,7 +105,7 @@ export default function Home() {
           Object.entries(data.dbUsers).length === data.dbUsersCount &&
           Object.entries(data.dbConnections).length ===
             data.dbConnectionCount &&
-          data.session.sessionEmail
+          data
         ) {
           db.collection("data")
             .doc("SNA9FltXA8h6x6xlt1Ml")
@@ -127,6 +126,9 @@ export default function Home() {
               ],
               userCount: data.dbUsersCount + 1,
               connectionCount: data.dbConnectionCount,
+            })
+            .then(() => {
+              router.push("/");
             });
         }
       }
@@ -192,6 +194,10 @@ export default function Home() {
       makeOffline();
     });
   }, []);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <div>

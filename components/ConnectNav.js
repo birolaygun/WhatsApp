@@ -46,7 +46,8 @@ const ConnectNav = () => {
               connect.sides
                 .map((side) => side.user)
                 .includes(data.user.userMail)
-          )[0]?.sides.find((fn) => fn.user === data.selectedCon.userMail).typing
+          )[0]
+          .sides.find((fn) => fn.user === data.selectedCon.userMail).typing
       );
     }
   }, [data.dbConnections, data.selectedCon]);
@@ -80,7 +81,7 @@ const ConnectNav = () => {
               />
             ) : (
               <div className="w-12 h-12 rounded-full bg-blue_100 flex items-center justify-center text-2xl font-semibold">
-                {data.selectedCon.userMail[0]?.toUpperCase()}
+                {data.selectedCon.userMail[0].toUpperCase()}
               </div>
             )}
           </div>

@@ -34,7 +34,8 @@ const Connect = () => {
               connect.sides
                 .map((side) => side.user)
                 .includes(data.user.userMail)
-          )[0]?.messages.sort(compare)
+          )[0]
+          .messages.sort(compare)
       );
     }
   }, [data]);
@@ -84,7 +85,7 @@ const Connect = () => {
           .map((side) => side.user)
           .includes(data.selectedCon.userMail) &&
         connect.sides.map((side) => side.user).includes(data.user.userMail)
-    )[0]?.messages.length,
+    )[0].messages.length,
   ]);
 
   useEffect(() => {
@@ -100,7 +101,7 @@ const Connect = () => {
           .map((side) => side.user)
           .includes(data.selectedCon.userMail) &&
         connect.sides.map((side) => side.user).includes(data.user.userMail)
-    )[0]?.messages.length
+    )[0].messages.length
   ]);
 
   return (

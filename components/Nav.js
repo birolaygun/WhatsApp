@@ -16,8 +16,8 @@ const Nav = () => {
         data.dbConnections
           ?.filter((fl) => {
             return (
-              fl.sides[0]?.user === data.user.userMail ||
-              fl.sides[1]?.user === data.user.userMail
+              fl.sides[0].user === data.user.userMail ||
+              fl.sides[1].user === data.user.userMail
             );
           })
           .filter((fin) => {
@@ -28,6 +28,10 @@ const Nav = () => {
       ).length
     );
   }, [data.dbConnections]);
+
+  console.log(
+    data.user.profilePhoto ? data.user.profilePhoto : data.user.authPhoto
+  );
 
   return (
     <div>
@@ -48,7 +52,7 @@ const Nav = () => {
               {plus}
             </div>
             <div className="absolute  right-4 mt-3">
-              <Dropdown  />
+              <Dropdown />
             </div>
           </div>
         </div>
