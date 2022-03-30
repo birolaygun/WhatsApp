@@ -86,7 +86,7 @@ const Messages = (props) => {
   }, [props.sortedMessages, props.message]);
 
   return (
-    <div>
+    <div className="animate-fadeInUp">
       {new Date(props.sortedMessages[props.i].time).toDateString() !==
         new Date(props.sortedMessages[props.i - 1]?.time).toDateString() && (
         <div

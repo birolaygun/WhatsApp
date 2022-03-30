@@ -66,11 +66,20 @@ module.exports = {
             transform: "translateY(0%)",
           },
         },
+        fadeInUp: {
+          "0%": {
+            transform: "translateY(30%)",
+          },
+          "100%": {
+            transform: "translateY(0%)",
+          },
+        },
       },
       animation: {
         slideInLeft: "slideInLeft 500ms",
         fadeIn: "fadeIn 500ms",
         fadeInDown: "fadeInDown 1000ms",
+        fadeInUp: "fadeInUp 200ms",
       },
       flexGrow: {
         2: 2,

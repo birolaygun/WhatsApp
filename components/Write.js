@@ -144,7 +144,7 @@ const Write = () => {
   };
 
   return (
-    <div className="  bg-gray_500  w-full  flex items-end pb-4 px-5 text-gray_100 space-x-5 border-t border-t-gray_900 ">
+    <div className="  bg-gray_500  w-full  flex items-end pb-4 px-5 text-gray_100 space-x-5 border-t border-t-gray_900  ">
       <div className="pb-[6px]">{laugh}</div>
       <div
         className="pb-[6px]"

@@ -89,10 +89,20 @@ const Connect = () => {
   ]);
 
   useEffect(() => {
-    setTimeout(() => {
-      end.scrollIntoView();
-    }, 5);
-  }, []);
+    if (end) {
+      setTimeout(() => {
+        end.scrollIntoView();
+      }, 5);
+    }
+  }, [
+    data.dbConnections.filter(
+      (connect) =>
+        connect.sides
+          .map((side) => side.user)
+          .includes(data.selectedCon.userMail) &&
+        connect.sides.map((side) => side.user).includes(data.user.userMail)
+    )[0].messages.length
+  ]);
 
   return (
     <div
