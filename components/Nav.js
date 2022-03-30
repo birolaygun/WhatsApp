@@ -27,7 +27,7 @@ const Nav = () => {
           })
       ).length
     );
-  }, [data]);
+  }, [data.dbConnections]);
 
   return (
     <div>

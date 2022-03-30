@@ -45,14 +45,14 @@ export default function Home() {
   }, [session]);
 
   useEffect(() => {
-    if(session){
-          db.collection("data").onSnapshot((ss) => {
-      setList(
-        ss.docs.map((person) => {
-          return { id: person.id, data: person.data() };
-        })
-      );
-    });
+    if (session) {
+      db.collection("data").onSnapshot((ss) => {
+        setList(
+          ss.docs.map((person) => {
+            return { id: person.id, data: person.data() };
+          })
+        );
+      });
     }
   }, [session]);
 
@@ -72,6 +72,15 @@ export default function Home() {
       setDbConnectionCount(list[0]?.data?.connectionCount);
     }
   }, [list]);
+
+  useEffect(() => {
+    dispatch({
+      type: "LOGIN",
+      payload: data.dbUsers.find(
+        (fn) => fn.userMail === data.session.sessionEmail
+      ),
+    });
+  }, []);
 
   useEffect(() => {
     if (dbUsers && dbConnections)
@@ -169,15 +178,16 @@ export default function Home() {
   };
 
   useBeforeunload((event) => {
+    event.preventDefault();
     makeOffline();
-    // event.preventDefault();
+    event.preventDefault();
   });
 
-  // useBeforeunload(() => {
-  //   makeOffline();
-  // });
-
-
+  useEffect(() => {
+    router.beforePopState((event) => {
+      makeOffline();
+    });
+  }, []);
 
   return (
     <div>
