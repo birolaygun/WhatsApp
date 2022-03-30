@@ -12,6 +12,7 @@ import { WhatsAppIcon } from "../components/icons";
 import { useBeforeunload } from "react-beforeunload";
 
 export default function Home() {
+
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state);
   const { data: session } = useSession();
@@ -25,27 +26,9 @@ export default function Home() {
   const [dbUserCount, setDbUserCount] = useState();
   const [dbConnectionCount, setDbConnectionCount] = useState();
 
-  useEffect(() => {
-    if (session) {
-      dispatch({
-        type: "SET_SESSION",
-        payload: {
-          sessionName: session?.user.name,
-          sessionImage: session?.user.image,
-          sessionEmail: session?.user.email,
-        },
-      });
-      // router.push("/");
-    } else {
-      dispatch({
-        type: "SET_SESSION",
-        payload: {},
-      });
-    }
-  }, [session]);
+
 
   useEffect(() => {
-    if (session) {
       db.collection("data").onSnapshot((ss) => {
         setList(
           ss.docs.map((person) => {
@@ -53,10 +36,10 @@ export default function Home() {
           })
         );
       });
-    }
-  }, [session]);
+  
+  }, []);
 
-  useEffect(() => {
+    useEffect(() => {
     if (list[0]?.data?.connection) {
       setDbConnections(list[0]?.data?.connection);
     }
@@ -73,6 +56,34 @@ export default function Home() {
     }
   }, [list]);
 
+  useEffect(() => {
+    if (dbUsers && dbConnections && dbUserCount && dbConnectionCount)
+      dispatch({
+        type: "REFLESH_DATAS",
+        payload: [dbUsers, dbConnections, dbUserCount, dbConnectionCount],
+      });
+  }, [dbUsers, dbConnections, dbUserCount, dbConnectionCount]);
+
+
+  useEffect(() => {
+    if (session) {
+      dispatch({
+        type: "SET_SESSION",
+        payload: {
+          sessionName: session?.user.name,
+          sessionImage: session?.user.image,
+          sessionEmail: session?.user.email,
+        },
+      });
+    } else {
+      dispatch({
+        type: "SET_SESSION",
+        payload: {},
+      });
+    }
+  }, [session]);
+
+
   // useEffect(() => {
   //   dispatch({
   //     type: "LOGIN",
@@ -82,13 +93,6 @@ export default function Home() {
   //   });
   // }, []);
 
-  useEffect(() => {
-    if (dbUsers && dbConnections && dbUserCount && dbConnectionCount)
-      dispatch({
-        type: "REFLESH_DATAS",
-        payload: [dbUsers, dbConnections, dbUserCount, dbConnectionCount],
-      });
-  }, [dbUsers, dbConnections, dbUserCount, dbConnectionCount]);
 
   useEffect(() => {
     if (data.session && data.dbUsers.length > 0) {
@@ -106,7 +110,7 @@ export default function Home() {
           Object.entries(data.dbUsers).length === data.dbUsersCount &&
           Object.entries(data.dbConnections).length ===
             data.dbConnectionCount &&
-          data
+            data.session.sessionName
         ) {
           db.collection("data")
             .doc("SNA9FltXA8h6x6xlt1Ml")
