@@ -187,7 +187,6 @@ export default function Home() {
     router.beforePopState((event) => {
       makeOffline();
     });
-    console.log(session);
   }, []);
 
 
