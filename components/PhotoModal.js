@@ -44,6 +44,8 @@ const PhotoModal = () => {
               Object.entries(data.dbConnections).length ===
                 data.dbConnectionCount && data
             ) {
+              console.log("photomodal");
+
               db.collection("data")
                 .doc("SNA9FltXA8h6x6xlt1Ml")
                 .update({

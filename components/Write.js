@@ -11,6 +11,7 @@ const Write = () => {
 
   const [myMessage, setMyMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sendTime, setSendTime] = useState("");
 
   useEffect(() => {
     autosize(document.getElementById("textarea"));
@@ -20,8 +21,11 @@ const Write = () => {
     if (
       myMessage &&
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
-      Object.entries(data.dbConnections).length === data.dbConnectionCount && data
+      Object.entries(data.dbConnections).length === data.dbConnectionCount &&
+      data
     ) {
+      console.log("w-1");
+
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
         .update({
@@ -56,8 +60,11 @@ const Write = () => {
     } else if (
       !myMessage &&
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
-      Object.entries(data.dbConnections).length === data.dbConnectionCount && data
+      Object.entries(data.dbConnections).length === data.dbConnectionCount &&
+      data
     ) {
+      console.log("w-2");
+
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
         .update({
@@ -95,8 +102,12 @@ const Write = () => {
   const sendAMessage = () => {
     if (
       Object.entries(data.dbUsers).length === data.dbUsersCount &&
-      Object.entries(data.dbConnections).length === data.dbConnectionCount && data
+      Object.entries(data.dbConnections).length === data.dbConnectionCount &&
+      data &&
+      sendTime
     ) {
+      console.log("w-3");
+
       setLoading(true);
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
@@ -124,7 +135,7 @@ const Write = () => {
                   {
                     message: myMessage,
                     seen: false,
-                    time: String(new Date()),
+                    time: sendTime,
                     writer: data.user.userMail,
                     file: false,
                   },
@@ -138,14 +149,28 @@ const Write = () => {
           connectionCount: data.dbConnectionCount,
           users: data.dbUsers,
           userCount: data.dbUsersCount,
-        })
-        .then(() => {
-          setMyMessage("");
-          setLoading(false);
-          document.getElementById("textarea").style.height = "40px";
         });
     }
   };
+
+  useEffect(() => {
+    if (
+      data.dbConnections
+        .find((fn) => {
+          return (
+            fn.sides
+              .map((side) => side.user)
+              .includes(data.selectedCon.userMail) &&
+            fn.sides.map((side) => side.user).includes(data.user.userMail)
+          );
+        })
+        .messages.find((message) => message.time === sendTime)
+    ) {
+      setMyMessage("");
+      setLoading(false);
+      document.getElementById("textarea").style.height = "40px";
+    }
+  }, [data.dbConnections, sendTime]);
 
   return (
     <div className="  bg-gray_500  w-full  flex items-end pb-4 px-5 text-gray_100 space-x-5 border-t border-t-gray_900  ">
@@ -164,9 +189,14 @@ const Write = () => {
       <div className="w-full ">
         <textarea
           id="textarea"
-          value={myMessage}
+          value={`${loading ? "..." : myMessage}`}
           onChange={(e) => {
-            setMyMessage(e.target.value);
+            setSendTime(String(new Date()));
+            if (sendTime) {
+              setMyMessage(e.target.value);
+            } else {
+              console.log("sendTime gelmedi");
+            }
           }}
           placeholder={` Type a message`}
           className="w-full bg-gray_300 rounded-lg p-2 items-end focus-within:outline-none scrollbar relative -bottom-3 
@@ -178,7 +208,9 @@ const Write = () => {
         <button
           disabled={loading}
           type="button"
-          className="rotate-45 transition-all pb-[6px] "
+          className={`rotate-45 transition-all pb-[6px] ${
+            loading && "opacity-50"
+          } `}
           onClick={() => {
             sendAMessage();
           }}

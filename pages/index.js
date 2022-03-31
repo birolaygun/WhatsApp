@@ -107,6 +107,8 @@ export default function Home() {
             data.dbConnectionCount &&
           data
         ) {
+          console.log("i-1");
+
           db.collection("data")
             .doc("SNA9FltXA8h6x6xlt1Ml")
             .update({
@@ -142,6 +144,8 @@ export default function Home() {
       data.user.login === false &&
       data
     ) {
+      console.log("i-2");
+
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
         .update({
@@ -166,6 +170,8 @@ export default function Home() {
       data.user.login === true &&
       data
     ) {
+      console.log("i-3");
+
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
         .update({

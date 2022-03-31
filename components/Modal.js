@@ -36,6 +36,8 @@ const Modal = () => {
         Object.entries(data.dbConnections).length === data.dbConnectionCount && data
       ) {
         if (data.dbUsers.find((fn) => fn.userMail === data.friendsMail)) {
+          console.log("modal1");
+
           db.collection("data")
             .doc("SNA9FltXA8h6x6xlt1Ml")
             .update({
@@ -55,6 +57,8 @@ const Modal = () => {
               userCount: data.dbUsersCount,
             });
         } else {
+          console.log("modal2");
+
           db.collection("data")
             .doc("SNA9FltXA8h6x6xlt1Ml")
             .update({
@@ -66,8 +70,6 @@ const Modal = () => {
                     { user: data.friendsMail, typing: false },
                     { user: data.user.userMail, typing: false },
                   ],
-                  sideOneTyping: false,
-                  sideZeroTyping: false,
                 },
               ],
               connectionCount: data.dbConnectionCount + 1,

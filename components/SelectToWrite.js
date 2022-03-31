@@ -54,6 +54,8 @@ const SelectToWrite = (props) => {
       Object.entries(data.dbConnections).length === data.dbConnectionCount &&
       data
     ) {
+      console.log("selecttow");
+
       db.collection("data")
         .doc("SNA9FltXA8h6x6xlt1Ml")
         .update({
@@ -107,7 +109,6 @@ const SelectToWrite = (props) => {
           type: "SELECT_CON",
           payload: props.senderEMail,
         });
-        makeSeen();
       }}
       className={
         selected

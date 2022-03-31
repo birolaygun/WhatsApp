@@ -40,53 +40,6 @@ const Connect = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    if (
-      Object.entries(data.dbUsers).length === data.dbUsersCount &&
-      Object.entries(data.dbConnections).length === data.dbConnectionCount &&
-      data.selectedCon && data
-    ) {
-      db.collection("data")
-        .doc("SNA9FltXA8h6x6xlt1Ml")
-        .update({
-          connection: data.dbConnections.map((connect) => {
-            if (
-              connect.sides
-                .map((side) => side.user)
-                .includes(data.selectedCon.userMail) &&
-              connect.sides
-                .map((side) => side.user)
-                .includes(data.user.userMail)
-            ) {
-              return {
-                ...connect,
-                messages: connect.messages.map((message) => {
-                  if (message.writer !== data.selectedCon.userMail) {
-                    return message;
-                  } else {
-                    return { ...message, seen: true };
-                  }
-                }),
-              };
-            } else {
-              return connect;
-            }
-          }),
-
-          connectionCount: data.dbConnectionCount,
-          users: data.dbUsers,
-          userCount: data.dbUsersCount,
-        });
-    }
-  }, [
-    data.dbConnections.filter(
-      (connect) =>
-        connect.sides
-          .map((side) => side.user)
-          .includes(data.selectedCon.userMail) &&
-        connect.sides.map((side) => side.user).includes(data.user.userMail)
-    )[0].messages.length,
-  ]);
 
   useEffect(() => {
     if (end) {
@@ -101,8 +54,15 @@ const Connect = () => {
           .map((side) => side.user)
           .includes(data.selectedCon.userMail) &&
         connect.sides.map((side) => side.user).includes(data.user.userMail)
-    )[0].messages.length
+    )[0].messages.length,
   ]);
+  useEffect(() => {
+    if (end) {
+      setTimeout(() => {
+        end.scrollIntoView();
+      }, 5);
+    }
+  }, []);
 
   return (
     <div
