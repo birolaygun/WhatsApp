@@ -33,7 +33,8 @@ const Modal = () => {
         window.alert("This e-mail adress is already your friens");
       } else if (
         Object.entries(data.dbUsers).length === data.dbUsersCount &&
-        Object.entries(data.dbConnections).length === data.dbConnectionCount && data
+        Object.entries(data.dbConnections).length === data.dbConnectionCount &&
+        data
       ) {
         if (data.dbUsers.find((fn) => fn.userMail === data.friendsMail)) {
           console.log("modal1");
@@ -134,7 +135,7 @@ const Modal = () => {
             Add
           </button>
           <button
-            className="bg-gray_100 p-1 rounded-sm w-20"
+            className="bg-gray_100  rounded-sm w-20 p-1"
             type="submit"
             onClick={() => handleSubmit}
           >
